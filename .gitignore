@@ -154,3 +154,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+#Large Files from Emgu CV
+KwikHands.Tracking/cublas64_42_9.dll
+KwikHands.Tracking/opencv_gpu242.dll

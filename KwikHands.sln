@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands", "KwikHands\KwikHands.csproj", "{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Tracking", "KwikHands.Tracking\KwikHands.Tracking.csproj", "{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF397DC4-2C74-43CD-95FD-04F2C6B2BF49}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Domain", "KwikHands.Domain\KwikHands.Domain.csproj", "{1E4FAE78-59BE-447A-B9C8-70BB922E3523}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Cones", "KwikHands.Cones\KwikHands.Cones.csproj", "{044A3897-1327-4E37-9F69-0E67EBB23A3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{044A3897-1327-4E37-9F69-0E67EBB23A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{044A3897-1327-4E37-9F69-0E67EBB23A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{044A3897-1327-4E37-9F69-0E67EBB23A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{044A3897-1327-4E37-9F69-0E67EBB23A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
