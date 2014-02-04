@@ -42,8 +42,26 @@ namespace KwikHands
             _engine.Init(this);
             _engine.LoadGame<Cones.ConeAvoidance>();
             _engine.ObjectMotionEvent += _engine_ObjectMotionEvent;
+
+            XSlider.ValueChanged += Slider_ValueChanged;
+            YSlider.ValueChanged += Slider_ValueChanged;
+            ZSlider.ValueChanged += Slider_ValueChanged;
+
+            this.KeyDown += MainWindow_KeyDown;
         }
 
+        void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.F12)
+                this.Controls.Visibility = this.Controls.Visibility == System.Windows.Visibility.Collapsed ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+        }
+
+        void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //Camera.Position = new Point3D(XSlider.Value, YSlider.Value, ZSlider.Value);
+            Camera.LookDirection = new Vector3D(XSlider.Value, YSlider.Value, ZSlider.Value);
+        }
+       
         void _engine_ObjectMotionEvent(object sender, ObjectEventArgs e)
         {
             this.Dispatcher.Invoke((Action)(() =>

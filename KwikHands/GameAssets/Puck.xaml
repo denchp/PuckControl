@@ -4,7 +4,7 @@
             <Model3DGroup>
                 <Model3DGroup.Transform>
                     <Transform3DGroup>
-                        <ScaleTransform3D ScaleX=".5" ScaleY=".5" ScaleZ=".25"/>
+                        <ScaleTransform3D ScaleX=".25" ScaleY=".25" ScaleZ=".1"/>
                         <RotateTransform3D>
                             <RotateTransform3D.Rotation>
                                 <AxisAngleRotation3D  Axis="0.000000,-0.000000,0.000000" Angle="0.0"/>

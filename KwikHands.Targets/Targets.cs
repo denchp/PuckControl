@@ -13,9 +13,9 @@ using System.Windows.Media.Media3D;
 
 namespace KwikHands.Cones
 {
-    public class ConeAvoidance : IGame
+    public class Targets : IGame
     {
-        GameObject _cone = new GameObject();
+        GameObject _target = new GameObject();
         GameObject _puck = new GameObject();
         GameObject _rink = new GameObject();
 
@@ -28,11 +28,11 @@ namespace KwikHands.Cones
 
         public bool Init()
         {
-            string AssemblyName = "KwikHands.Cones";
+            string AssemblyName = "KwikHands.Targets";
             BitmapImage TextureImage = new BitmapImage();
 
-            var info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Cone.xaml"));
-            _cone.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
+            var info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Target.xaml"));
+            _target.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
 
             info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Puck.xaml"));
             _puck.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
@@ -43,16 +43,16 @@ namespace KwikHands.Cones
 
             _rink.ApplyPhysics = false;
 
-            _gameObjects.Add(_cone, ObjectType.Cone);
+            _gameObjects.Add(_target, ObjectType.Target);
             _gameObjects.Add(_rink, ObjectType.Rink);
             _gameObjects.Add(_puck, ObjectType.Puck);
 
             if (NewObjectEvent != null)
             {
-                var args = new ObjectEventArgs(_rink);
+                var args = new ObjectEventArgs(_target);
                 NewObjectEvent(this, args);
 
-                args.Obj = _cone;
+                args.Obj = _target;
                 NewObjectEvent(this, args);
 
                 args.Obj = _puck;
@@ -67,7 +67,7 @@ namespace KwikHands.Cones
             if (this.ObjectMotionEvent != null)
             {
                 _puck.Position = motionVector / 5;
-                
+
                 var args = new ObjectEventArgs(_puck, ObjectType.Puck);
                 ObjectMotionEvent(this, args);
             }
