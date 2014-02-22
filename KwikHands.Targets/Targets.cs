@@ -1,18 +1,18 @@
-﻿using KwikHands.Domain;
-using KwikHands.Domain.EventArg;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Resources;
-using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-
-namespace KwikHands.Cones
+﻿namespace KwikHands.Cones
 {
+    using KwikHands.Domain;
+    using KwikHands.Domain.EventArg;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Resources;
+    using System.Windows;
+    using System.Windows.Markup;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using System.Windows.Media.Media3D;
+
     public class Targets : IGame
     {
         GameObject _target = new GameObject();
@@ -72,5 +72,15 @@ namespace KwikHands.Cones
                 ObjectMotionEvent(this, args);
             }
         }
+
+
+        public void StartGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public event EventHandler<HudItemEventArgs> NewHudItemEvent;
+
+        public event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
     }
 }

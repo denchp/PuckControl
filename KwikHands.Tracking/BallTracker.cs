@@ -63,6 +63,7 @@
                 {   // Fire the update event!
                     var args = new BlobUpdateEventArgs();
                     int Xpct = _gravityCenter.X * 100 / _currentImage.Width - 50;
+                    Xpct *= -1;
                     int Ypct = _gravityCenter.Y * 100 / _currentImage.Height - 50;
 
                     args.MotionVector = new System.Windows.Media.Media3D.Vector3D() { X = Xpct, Y = Ypct, Z = 0 };

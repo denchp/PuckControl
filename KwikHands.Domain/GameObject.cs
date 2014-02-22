@@ -11,10 +11,12 @@ namespace KwikHands.Domain
     {
         public bool ApplyPhysics = true;
 
-        public int Mass { get; set; }
+        public Int32 Mass { get; set; }
         public ModelVisual3D Model { get; set; }
         public Vector3D Position { get; set; }
         public Vector3D Motion { get; set; }
         public Vector3D Rotation { get; set; }
+        public ObjectType Type { get; set; }
+        public String ID { get; set; }
     }
 }

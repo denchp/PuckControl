@@ -14,6 +14,7 @@ namespace KwikHands.Domain
         public event EventHandler<ImageEventArgs> NewCameraImage;
         public event EventHandler<ImageEventArgs> NewTrackingImage;
         public event EventHandler<ObjectEventArgs> ObjectMotionEvent;
+        public event EventHandler<HudItemEventArgs> UpdateHudItem;
 
         public bool Tracking = false;
         private Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
@@ -27,6 +28,11 @@ namespace KwikHands.Domain
         {
             _gameWindow = gameWindow;
             _tracker.NewCameraImage += _tracker_NewCameraImages;
+        }
+
+        public void StartGame()
+        {
+            _game.StartGame();
         }
 
         void _tracker_NewCameraImages(object sender, EventArgs e)
@@ -49,7 +55,20 @@ namespace KwikHands.Domain
             _game.RemoveObjectEvent += _game_RemoveObjectEvent;
             _game.ObjectCollisionEvent += _game_ObjectCollisionEvent;
             _game.ObjectMotionEvent += _game_ObjectMotionEvent;
+
+            _game.NewHudItemEvent += _game_NewHudItemEvent;
+            _game.UpdateHudItemEvent +=_game_UpdateHudItemEvent;
             _game.Init();
+        }
+
+        void _game_UpdateHudItemEvent(object sender, HudItemEventArgs e)
+        {
+            _gameWindow.UpdateHudItem(e.Item);
+        }
+
+        void _game_NewHudItemEvent(object sender, HudItemEventArgs e)
+        {
+            _gameWindow.AddHudItem(e.Item);
         }
 
         void _game_ObjectMotionEvent(object sender, ObjectEventArgs e)
@@ -76,7 +95,6 @@ namespace KwikHands.Domain
             Tracking = false;
             _tracker.StopTracking();
         }
-
 
         void _game_ObjectCollisionEvent(object sender, ObjectEventArgs e)
         {
