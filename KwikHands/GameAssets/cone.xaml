@@ -4,14 +4,12 @@
 			<Model3DGroup x:Name="Scene"> <!-- Scene (XAML Path = ) -->
 				<Model3DGroup.Transform>
 					<Transform3DGroup>
-						<TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0"/>
 						<ScaleTransform3D ScaleX=".8" ScaleY=".8" ScaleZ=".8"/>
 						<RotateTransform3D>
 							<RotateTransform3D.Rotation>
 								<AxisAngleRotation3D Angle="90" Axis="1 0 0"/>
 							</RotateTransform3D.Rotation>
 						</RotateTransform3D>
-						<TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0"/>
 					</Transform3DGroup>
 				</Model3DGroup.Transform>
 				<AmbientLight Color="#646464" />

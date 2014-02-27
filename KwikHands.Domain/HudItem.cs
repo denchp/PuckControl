@@ -47,11 +47,16 @@
         public VerticalAlignment VerticalPosition { get; set; }
 
         public String Name { get; set; }
-        public Int16 Size { get; set; }
-        public bool Visible { get; set; }
+        private Int16 _size;
+        public Int16 Size { get { return _size; } set { _size = value; Changed = true; } }
+
+        private bool _visible;
+        public bool Visible { get { return _visible; } set { _visible = value; Changed = true; } }
         public Int16 Rotation { get; set; }
 
-        public Int32 Value { get; set; }
+        private Int32 _value;
+        public Int32 Value { get { return _value; } set { _value = value; Changed = true; } }
+
         public Int32 DefaultValue { get; set; }
         public Int32 MinValue { get; set; }
         public Int32 MaxValue { get; set; }
@@ -60,7 +65,12 @@
         public bool MaximumTrigger { get; set; }
                 
         public String DefaultText { get; set; }
-        public String Text { get; set; }
+
+        public String _text;
+        public String Text { get { return _text; } set { _text = value; Changed = true; } }
+
+        public String Label { get; set; }
+        public bool Changed { get; private set; }
 
         public void StartTimer()
         {

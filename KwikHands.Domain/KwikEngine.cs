@@ -61,6 +61,11 @@ namespace KwikHands.Domain
             _game.Init();
         }
 
+        public void PuckCollision(GameObject obj)
+        {
+            _game.PuckCollision(obj);
+        }
+
         void _game_UpdateHudItemEvent(object sender, HudItemEventArgs e)
         {
             _gameWindow.UpdateHudItem(e.Item);

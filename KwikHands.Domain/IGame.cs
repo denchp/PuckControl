@@ -17,5 +17,6 @@ namespace KwikHands.Domain
         event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
 
         void UpdateBall(Vector3D motionVector);
+        void PuckCollision(GameObject obj);
     }
 }

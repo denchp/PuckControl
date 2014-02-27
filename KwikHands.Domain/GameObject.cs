@@ -18,5 +18,6 @@ namespace KwikHands.Domain
         public Vector3D Rotation { get; set; }
         public ObjectType Type { get; set; }
         public String ID { get; set; }
+        public bool Active { get; set; }
     }
 }

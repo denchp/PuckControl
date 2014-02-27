@@ -72,27 +72,31 @@
         {
             this.Dispatcher.Invoke((Action)(() =>
               {
-                  RayHitTestParameters hitParams =
-                    new RayHitTestParameters(
-                        new Point3D(0, 0, 0),
-                        new Vector3D(1, 0, 0)
-                        );
-
                   Transform3DGroup TransformGroup = new Transform3DGroup();
                   TranslateTransform3D TranslateTransform = new TranslateTransform3D(e.Obj.Position);
 
                   TransformGroup.Children.Add(TranslateTransform);
-
-                  if (e.ObjType == ObjectType.Puck)
-                  {// puck moved so we'll check to see if we have hit any cones.
-                      foreach (var gameObject in _gameObjects.Where(x => x.Type == ObjectType.Cone))
-                      {
-                          VisualTreeHelper.HitTest(gameObject.Model, null, ResultCallback, hitParams);
-                      }
-                  }
-
                   int objIndex = this.Viewport.Children.IndexOf(e.Obj.Model);
                   this.Viewport.Children[objIndex].Transform = TransformGroup;
+
+                  if (e.ObjType == ObjectType.Puck)
+                  {
+                      Rect3D puckBoundingBox = e.Obj.Model.Content.Bounds;
+                      puckBoundingBox = e.Obj.Model.Transform.TransformBounds(puckBoundingBox);
+
+                      // puck moved so we'll check to see if we have hit any cones or targets
+                      foreach (var gameObject in _gameObjects.Where(x => x.Type == ObjectType.Cone || x.Type == ObjectType.Target))
+                      {
+                          Rect3D objectBoundingBox = gameObject.Model.Content.Bounds;
+                          objectBoundingBox.Location = (Point3D)gameObject.Position;
+                          //objectBoundingBox = gameObject.Model.Transform.TransformBounds(objectBoundingBox);
+
+                          if (puckBoundingBox.IntersectsWith(objectBoundingBox))
+                          {
+                              _engine.PuckCollision(gameObject);
+                          }
+                      }
+                  }
               }));
         }
 
@@ -212,13 +216,13 @@
             {
                 case HudItem.HudItemType.Text:
                     newFrameworkItem = new TextBlock();
-                    ((TextBlock)newFrameworkItem).Text = newItem.Text;
+                    ((TextBlock)newFrameworkItem).Text = newItem.Label + newItem.Text;
                     newFrameworkItem.Name = newItem.Name;
                     this.HUD.Children.Add(newFrameworkItem);
                     break;
                 case HudItem.HudItemType.Numeric:
                     newFrameworkItem = new TextBlock();
-                    ((TextBlock)newFrameworkItem).Text = newItem.Value.ToString();
+                    ((TextBlock)newFrameworkItem).Text = newItem.Label + newItem.Value.ToString();
                     newFrameworkItem.Name = newItem.Name;
                     
                     //Canvas.SetTop(newFrameworkItem, absY);
@@ -259,9 +263,9 @@
                     if (((FrameworkElement)element).Name == updatedItem.Name)
                     {
                             if (updatedItem.Type == HudItem.HudItemType.Text)
-                                ((TextBlock)element).Text = updatedItem.Text;
+                                ((TextBlock)element).Text = updatedItem.Label + updatedItem.Text;
                             else
-                                ((TextBlock)element).Text = updatedItem.Value.ToString();
+                                ((TextBlock)element).Text = updatedItem.Label + updatedItem.Value.ToString();
                     }
                 }
             }));

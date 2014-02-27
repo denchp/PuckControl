@@ -82,5 +82,11 @@
         public event EventHandler<HudItemEventArgs> NewHudItemEvent;
 
         public event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
+
+
+        public void PuckCollision(GameObject obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

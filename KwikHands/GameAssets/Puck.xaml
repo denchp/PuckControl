@@ -5,12 +5,6 @@
                 <Model3DGroup.Transform>
                     <Transform3DGroup>
                         <ScaleTransform3D ScaleX=".25" ScaleY=".25" ScaleZ=".1"/>
-                        <RotateTransform3D>
-                            <RotateTransform3D.Rotation>
-                                <AxisAngleRotation3D  Axis="0.000000,-0.000000,0.000000" Angle="0.0"/>
-                            </RotateTransform3D.Rotation>
-                        </RotateTransform3D>
-                        <TranslateTransform3D OffsetX="0.0" OffsetY="0.0" OffsetZ="0.0"/>
                     </Transform3DGroup>
                 </Model3DGroup.Transform>
                 <GeometryModel3D>

@@ -29,9 +29,12 @@ namespace KwikHands.Cones
         public event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
 
         private List<GameObject> _gameObjects = new List<GameObject>();
+        private List<HudItem> _hudItems = new List<HudItem>();
         private HudItem _timerHud;
         private HudItem _scoreHud;
         private HudItem _countdownHud;
+        private HudItem _livesHud;
+
         private Timer _gameTimer;
 
         public enum GameStages
@@ -58,6 +61,7 @@ namespace KwikHands.Cones
             _cone.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
             _cone.Type = ObjectType.Cone;
             _cone.ID = "Cone_" + _gameObjects.Where(x => x.Type == ObjectType.Cone).Count();
+            _cone.Active = true;
 
             info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Puck.xaml"));
             _puck.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
@@ -93,6 +97,19 @@ namespace KwikHands.Cones
                 VerticalPosition = HudItem.VerticalAlignment.Top,
                 Type = HudItem.HudItemType.Numeric,
                 Name = "Score",
+                Label = "Score:",
+            };
+
+            
+            _livesHud = new HudItem()
+            {
+                DefaultValue = 3,
+                Value = 3,
+                HorizontalPosition = HudItem.HorizontalAlignment.Left,
+                VerticalPosition = HudItem.VerticalAlignment.Top,
+                Type = HudItem.HudItemType.Numeric,
+                Name = "Lives",
+                Label = "Lives:",
             };
 
             _countdownHud = new HudItem()
@@ -102,8 +119,13 @@ namespace KwikHands.Cones
                 HorizontalPosition = HudItem.HorizontalAlignment.Center,
                 VerticalPosition = HudItem.VerticalAlignment.Middle,
                 Type = HudItem.HudItemType.Numeric,
-                Name = "Countdown"            
+                Name = "Countdown",          
             };
+
+            _hudItems.Add(_livesHud);
+            _hudItems.Add(_countdownHud);
+            _hudItems.Add(_scoreHud);
+            _hudItems.Add(_timerHud);
 
             if (NewHudItemEvent != null)
             {
@@ -115,6 +137,9 @@ namespace KwikHands.Cones
                 NewHudItemEvent(this, args);
 
                 args.Item = _countdownHud;
+                NewHudItemEvent(this, args);
+
+                args.Item = _livesHud;
                 NewHudItemEvent(this, args);
             }
 
@@ -171,7 +196,15 @@ namespace KwikHands.Cones
 
         private void UpdateInterface()
         {
+            if (UpdateHudItemEvent == null)
+                return;
 
+            foreach (var hudItem in _hudItems)
+            {
+                if (hudItem.Changed)
+                    UpdateHudItemEvent(this, new HudItemEventArgs() { Item = hudItem });
+
+            }
         }
 
         private void UpdateCountdown()
@@ -179,28 +212,45 @@ namespace KwikHands.Cones
             if (_countdownHud.Value > 1)
             {
                 _countdownHud.Value -= 1;
-
-                if (UpdateHudItemEvent != null)
-                    UpdateHudItemEvent(this, new HudItemEventArgs() { Item = _countdownHud });
+                UpdateInterface();
             }
             else if (_countdownHud.Value == 1)
             {
                 _countdownHud.Value = 0;
                 _countdownHud.Text = "GO!";
                 _countdownHud.Type = HudItem.HudItemType.Text;
-
-                if (UpdateHudItemEvent != null)
-                    UpdateHudItemEvent(this, new HudItemEventArgs() { Item = _countdownHud });
+                UpdateInterface();
             }
             else
             {
                 _countdownHud.Visible = false;
                 _countdownHud.Reset();
                 CurrentStage = GameStages.Playing;
-
-                if (UpdateHudItemEvent != null)
-                    UpdateHudItemEvent(this, new HudItemEventArgs() { Item = _countdownHud });
+                UpdateInterface();
             }
+        }
+
+
+        public void PuckCollision(GameObject obj)
+        {
+
+            if (CurrentStage != GameStages.Playing || !obj.Active)
+                return;
+
+            obj.Active = false;
+
+            switch (obj.Type)
+            {
+                case ObjectType.Cone:
+                    _livesHud.Value -= 1;
+                    break;
+
+                case ObjectType.Target:
+                    _scoreHud.Value += 1;
+                    break;
+            }
+
+            UpdateInterface();
         }
     }
 }
