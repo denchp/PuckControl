@@ -31,7 +31,7 @@
 							<MaterialGroup>
 								<DiffuseMaterial>
 									<DiffuseMaterial.Brush>
-                                    <ImageBrush ImageSource="pack://application:,,,/KwikHands.Cones;component/models/cone_texture.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 1 1" AlignmentX="Left" AlignmentY="Top" Opacity="1.000000" />
+                                    <ImageBrush ImageSource="pack://application:,,,/KwikHands;component/GameAssets/cone_texture.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 1 1" AlignmentX="Left" AlignmentY="Top" Opacity="1.000000" />
 									</DiffuseMaterial.Brush>
 								</DiffuseMaterial>
 								<SpecularMaterial SpecularPower="59.7333">
@@ -45,7 +45,7 @@
 							<MaterialGroup>
 								<DiffuseMaterial>
 									<DiffuseMaterial.Brush>
-                                    <ImageBrush ImageSource="pack://application:,,,/KwikHands.Cones;component/models/cone_texture.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 1 1" AlignmentX="Left" AlignmentY="Top" Opacity="1.000000" />
+                                    <ImageBrush ImageSource="pack://application:,,,/KwikHands;component/GameAssets/cone_texture.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 1 1" AlignmentX="Left" AlignmentY="Top" Opacity="1.000000" />
 									</DiffuseMaterial.Brush>
 								</DiffuseMaterial>
 								<SpecularMaterial SpecularPower="59.7333">

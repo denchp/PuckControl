@@ -47,7 +47,7 @@
                     <MaterialGroup>
                         <DiffuseMaterial>
                             <DiffuseMaterial.Brush>
-                                <ImageBrush ImageSource="pack://application:,,,/KwikHands.Cones;component/models/puck_texture.png"/>
+                                <ImageBrush ImageSource="pack://application:,,,/KwikHands;component/GameAssets/puck_texture.png"/>
                             </DiffuseMaterial.Brush>
                         </DiffuseMaterial>
                         <SpecularMaterial SpecularPower="5000">

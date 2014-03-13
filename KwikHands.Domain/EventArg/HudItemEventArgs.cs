@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KwikHands.Domain.EventArg
 {
-    public class HudItemEventArgs
+    public class HudItemEventArgs : EventArgs
     {
         public HudItem Item { get; set; }
     }

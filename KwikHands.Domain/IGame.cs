@@ -5,9 +5,6 @@ namespace KwikHands.Domain
 {
     public interface IGame
     {
-        bool Init();
-        void StartGame();
-
         event EventHandler<ObjectEventArgs> NewObjectEvent;
         event EventHandler<ObjectEventArgs> RemoveObjectEvent;
         event EventHandler<ObjectEventArgs> ObjectCollisionEvent;
@@ -16,7 +13,15 @@ namespace KwikHands.Domain
         event EventHandler<HudItemEventArgs> NewHudItemEvent;
         event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
 
-        void UpdateBall(Vector3D motionVector);
+        event EventHandler<MediaEventArgs> MediaEvent;
+
+        event EventHandler<GameStageEventArgs> GameStageChange;
+
+        GameStages CurrentStage { get; set; }
+        ControlTypeEnum ControlType { get; set; }
+
+        bool Init();
+        void StartGame();
         void PuckCollision(GameObject obj);
     }
 }

@@ -23,24 +23,14 @@
         public event EventHandler<ObjectEventArgs> RemoveObjectEvent;
         public event EventHandler<ObjectEventArgs> ObjectCollisionEvent;
         public event EventHandler<ObjectEventArgs> ObjectMotionEvent;
+        public event EventHandler<MediaEventArgs> MediaEvent;
 
         private Dictionary<GameObject, ObjectType> _gameObjects = new Dictionary<GameObject, ObjectType>();
 
         public bool Init()
         {
-            string AssemblyName = "KwikHands.Targets";
             BitmapImage TextureImage = new BitmapImage();
-
-            var info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Target.xaml"));
-            _target.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
-
-            info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/Puck.xaml"));
-            _puck.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
-            _puck.Position = new Vector3D(-6, -4, 0);
-
-            info = Application.GetResourceStream(new Uri("pack://application:,,,/" + AssemblyName + ";component/models/rink.xaml"));
-            _rink.Model = (ModelVisual3D)XamlReader.Load(info.Stream);
-
+            
             _rink.ApplyPhysics = false;
 
             _gameObjects.Add(_target, ObjectType.Target);
@@ -88,5 +78,45 @@
         {
             throw new NotImplementedException();
         }
+
+
+        public GameStages CurrentStage
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public ControlTypeEnum ControlType
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int ControlDeadZone
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        public event EventHandler<GameStages> GameStageChange;
     }
 }

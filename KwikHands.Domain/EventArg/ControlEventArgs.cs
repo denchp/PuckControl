@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KwikHands.Domain.EventArg
 {
-    public class ControlEventArgs
+    public class ControlEventArgs : EventArgs
     {
 
     }

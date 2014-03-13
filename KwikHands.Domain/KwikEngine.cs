@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 
 namespace KwikHands.Domain
 {
@@ -13,20 +14,24 @@ namespace KwikHands.Domain
     {
         public event EventHandler<ImageEventArgs> NewCameraImage;
         public event EventHandler<ImageEventArgs> NewTrackingImage;
-        public event EventHandler<ObjectEventArgs> ObjectMotionEvent;
+        public event EventHandler<ObjectEventArgs> NewObject;
+        public event EventHandler<ObjectEventArgs> ObjectMotion;
+        public event EventHandler<HudItemEventArgs> NewHudItem;
         public event EventHandler<HudItemEventArgs> UpdateHudItem;
-
+        public event EventHandler<MediaEventArgs> PlayMedia;
+        public event EventHandler<ObjectEventArgs> RemoveObject;
         public bool Tracking = false;
-        private Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
+        public double MaxSpeed = 4;
+        public double ControlDeadZone = 1;
+
+        private List<GameObject> _objects = new List<GameObject>();
         private IGame _game;
-        private IGameWindow _gameWindow;
         private Random _rand = new Random();
         private BallTracker _tracker = new BallTracker();
         private Thread _trackingThread;
 
-        public void Init(IGameWindow gameWindow)
+        public void Init()
         {
-            _gameWindow = gameWindow;
             _tracker.NewCameraImage += _tracker_NewCameraImages;
         }
 
@@ -53,12 +58,26 @@ namespace KwikHands.Domain
             _game = new T();
             _game.NewObjectEvent += _game_NewObjectEvent;
             _game.RemoveObjectEvent += _game_RemoveObjectEvent;
-            _game.ObjectCollisionEvent += _game_ObjectCollisionEvent;
             _game.ObjectMotionEvent += _game_ObjectMotionEvent;
-
             _game.NewHudItemEvent += _game_NewHudItemEvent;
             _game.UpdateHudItemEvent +=_game_UpdateHudItemEvent;
+            _game.MediaEvent += _game_MediaEvent;
+            _game.GameStageChange += _game_GameStageChange;
             _game.Init();
+        }
+
+        void _game_GameStageChange(object sender, GameStages e)
+        {
+            if (e == GameStages.Playing || e == GameStages.Countdown)
+                this.StartTracking();
+            else
+                this.StopTracking();
+        }
+
+        void _game_MediaEvent(object sender, MediaEventArgs e)
+        {
+            if (PlayMedia != null)
+                PlayMedia(this, e);
         }
 
         public void PuckCollision(GameObject obj)
@@ -68,18 +87,24 @@ namespace KwikHands.Domain
 
         void _game_UpdateHudItemEvent(object sender, HudItemEventArgs e)
         {
-            _gameWindow.UpdateHudItem(e.Item);
+            if (this.UpdateHudItem != null)
+            {
+                UpdateHudItem(this, e);
+            }
         }
 
         void _game_NewHudItemEvent(object sender, HudItemEventArgs e)
         {
-            _gameWindow.AddHudItem(e.Item);
+            if (this.NewHudItem != null)
+            {
+                NewHudItem(this, e);
+            }
         }
 
         void _game_ObjectMotionEvent(object sender, ObjectEventArgs e)
         {
-            if (this.ObjectMotionEvent != null)
-                ObjectMotionEvent(this, e);
+            if (this.ObjectMotion != null)
+                ObjectMotion(this, e);
         }
 
         public void StartTracking()
@@ -92,7 +117,34 @@ namespace KwikHands.Domain
 
         void _tracker_BallUpdate(object sender, BlobUpdateEventArgs e)
         {
-            _game.UpdateBall(e.MotionVector);
+            if (ObjectMotion == null)
+                return;
+            try
+            {
+                foreach (GameObject obj in _objects.Where(x => x.Type == ObjectType.Puck))
+                {
+                    Vector3D motionVector = e.PositionVector - obj.Position;
+                    if (motionVector.Length < this.ControlDeadZone)
+                        continue;
+
+                    switch (_game.ControlType)
+                    {
+                        case ControlTypeEnum.Relative:
+                            if (motionVector.Length > MaxSpeed)
+                                motionVector = motionVector * (MaxSpeed / motionVector.Length);
+
+                            obj.Position = obj.Position + motionVector;
+                            ObjectMotion(this, new ObjectEventArgs(obj, obj.Type));
+                            break;
+
+                        default:
+                            obj.Position = obj.Position + motionVector;
+                            ObjectMotion(this, new ObjectEventArgs(obj, obj.Type));
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex) { }
         }
 
         public void StopTracking()
@@ -101,28 +153,27 @@ namespace KwikHands.Domain
             _tracker.StopTracking();
         }
 
-        void _game_ObjectCollisionEvent(object sender, ObjectEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         void _game_RemoveObjectEvent(object sender, ObjectEventArgs e)
         {
-            throw new NotImplementedException();
+            if (RemoveObject != null)
+                RemoveObject(this, e);
         }
 
         void _game_NewObjectEvent(object sender, ObjectEventArgs e)
         {
-            int newKey;
-            while (_objects.ContainsKey(newKey = _rand.Next())) { }
-
-            _objects.Add(newKey, e.Obj);
-            _gameWindow.AddObject(e.Obj);
+            _objects.Add(e.Obj);
+            if (NewObject != null)
+                NewObject(this, e);
         }
 
         public void ToggleBoxes()
         {
             _tracker.DrawBoxes = !_tracker.DrawBoxes;
+        }
+
+        public void ForceTrackingUpdate(int XPosition, int YPosition)
+        {
+            _tracker_BallUpdate(this, new BlobUpdateEventArgs() { BlobId = 0, PositionVector = new Vector3D(XPosition, YPosition, 0) });
         }
     }
 }

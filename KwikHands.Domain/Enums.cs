@@ -20,4 +20,17 @@ namespace KwikHands.Domain
     {
         None, Rink, Puck, Cone, Target, Player, Board, Goalie
     }
+
+    public enum GameStages
+    {
+        Countdown,
+        Playing,
+        GameOver,
+        Menu
+    }
+
+    public enum ControlTypeEnum
+    {
+        Absolute, Relative
+    }
 }

@@ -7,11 +7,12 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Timers;
+    using KwikHands.Domain.EventArg;
 
     public class HudItem
     {
-        public event EventHandler<HudItem> MaximumTriggerReached;
-        public event EventHandler<HudItem> MinimumTriggerReached;
+        public event EventHandler<HudItemEventArgs> MaximumTriggerReached;
+        public event EventHandler<HudItemEventArgs> MinimumTriggerReached;
 
         private Timer _timer = new Timer();
 
@@ -88,6 +89,7 @@
         public HudItem()
         {
             Visible = false;
+            Size = 1;
         }
 
         public void Reset()

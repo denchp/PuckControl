@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KwikHands.Domain</RootNamespace>
     <AssemblyName>KwikHands.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -46,22 +49,16 @@
   <ItemGroup>
     <Compile Include="EventArg\ControlEventArgs.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EventArg\GameStageEventArgs.cs" />
     <Compile Include="EventArg\HudItemEventArgs.cs" />
     <Compile Include="EventArg\ImageEventArgs.cs" />
+    <Compile Include="EventArg\MediaEventArgs.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="HudItem.cs" />
     <Compile Include="IGame.cs" />
-    <Compile Include="IGameWindow.cs" />
-    <Compile Include="KwikEngine.cs" />
     <Compile Include="MotionControl.cs" />
     <Compile Include="EventArg\ObjectEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KwikHands.Tracking\KwikHands.Tracking.csproj">
-      <Project>{089d2245-4af2-4fa6-8027-35fe4c65a3e8}</Project>
-      <Name>KwikHands.Tracking</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

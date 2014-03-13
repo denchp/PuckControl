@@ -10,6 +10,6 @@ namespace KwikHands.Tracking
     public class BlobUpdateEventArgs : EventArgs
     {
         public int BlobId { get; set; }
-        public Vector3D MotionVector { get; set; }
+        public Vector3D PositionVector { get; set; }
     }
 }
