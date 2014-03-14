@@ -34,13 +34,18 @@
         private Gray _maximum = new Gray(255);
 
         private Hsv RED = new Hsv(0, 100, 0);
+        private BlobUpdateEventArgs _outlier;
+        private BlobUpdateEventArgs _lastUpdate;
+
+        const Int32 OUTLIER_LENGTH = 10;
+
         MCvFont font;
         Point _gravityCenter;
 
         public BallTracker()
         {
             _capture = new Capture();
-            font = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0);            
+            font = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0);
         }
 
         public void StartTracking()
@@ -52,8 +57,9 @@
                 BallTracking();
 
                 if (BallUpdate != null)
-                {   // Fire the update event!
+                {   // Handle the update!
                     var args = new BlobUpdateEventArgs();
+
                     int halfWidth = (int)(.5 * _currentImage.Width);
                     int halfHeight = (int)(.5 * _currentImage.Height);
 
@@ -61,9 +67,42 @@
                     int Ypct = (int)(100 * (_gravityCenter.Y - halfHeight) / halfHeight);
 
                     if (Xpct < 99 && Ypct < 99 && Xpct > -99 && Ypct > -99)
-                    {
+                    {// 100% in any direction and we're assuming we've lost the ball
                         args.PositionVector = new System.Windows.Media.Media3D.Vector3D() { X = Xpct, Y = Ypct, Z = 0 };
-                        BallUpdate(this, args);
+                        if (_lastUpdate != null)
+                        {
+                            if ((_lastUpdate.PositionVector - args.PositionVector).Length < OUTLIER_LENGTH)
+                            {
+                                _lastUpdate = args;
+                                BallUpdate(this, args);
+                                _outlier = null;
+                            }
+                            else
+                            {
+                                if (_outlier == null)
+                                {
+                                    _outlier = args;
+                                }
+                                else
+                                {
+                                    if (_outlier != null && (args.PositionVector - _outlier.PositionVector).Length < OUTLIER_LENGTH)
+                                    {
+                                        _lastUpdate = args;
+                                        BallUpdate(this, args);
+                                        _outlier = null;
+                                    }
+                                    else
+                                    {
+                                        _outlier = args;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _lastUpdate = args;
+                            BallUpdate(this, args);
+                        }
                     }
                 }
             }
@@ -105,7 +144,7 @@
                     return;
 
                 _color = _raw.Convert<Hsv, byte>();
-                _color._SmoothGaussian(21);
+                _color._SmoothGaussian(41);
 
                 _mask = GetMask();
 

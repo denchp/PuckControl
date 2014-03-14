@@ -10,22 +10,26 @@
         </StackPanel>
         <!--<Canvas x:Name="View2D" Height="200" Width="200">
         </Canvas>-->
-        <StackPanel x:Name="Controls"  VerticalAlignment="Bottom">
-            <Button x:Name="btnToggleCameraView" Width="Auto">
-                <Label>Toggle Camera View</Label>
-            </Button>
-            <Button x:Name="btnToggleLiveImage" Width="Auto">
-                <Label>Toggle Live Image</Label>
-            </Button>
-            <Button x:Name="btnToggleTracking" Width="Auto">
-                <Label>Toggle Tracking</Label>
-            </Button>
-            <Button x:Name="btnToggleBoxes" Width="Auto">
-                <Label>Toggle Tracking Boxes</Label>
-            </Button>
-            <Button x:Name="btnToggleMousecontrol" Width="Auto">
-                <Label>Toggle Mouse Control</Label>
-            </Button>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel x:Name="Controls"  VerticalAlignment="Bottom">
+                <Button x:Name="btnToggleCameraView" Width="Auto">
+                    <Label>Toggle Camera View</Label>
+                </Button>
+                <Button x:Name="btnToggleLiveImage" Width="Auto">
+                    <Label>Toggle Live Image</Label>
+                </Button>
+                <Button x:Name="btnToggleTracking" Width="Auto">
+                    <Label>Toggle Tracking</Label>
+                </Button>
+                <Button x:Name="btnToggleBoxes" Width="Auto">
+                    <Label>Toggle Tracking Boxes</Label>
+                </Button>
+                <Button x:Name="btnToggleMousecontrol" Width="Auto">
+                    <Label>Toggle Mouse Control</Label>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="ObjectList">
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </Window>

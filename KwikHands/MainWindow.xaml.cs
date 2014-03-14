@@ -65,6 +65,13 @@
         void _engine_NewObject(object sender, ObjectEventArgs e)
         {
             AddObject(e.Obj);
+            if (_debugWindow != null)
+            {
+                _debugWindow.Dispatcher.Invoke((Action)((() =>
+                    {
+                        _debugWindow.AddObject(e.Obj.Position, e.Obj.ID);
+                    })));
+            }
         }
 
         void _engine_NewHudItem(object sender, HudItemEventArgs e)
@@ -97,18 +104,26 @@
                       {
                           var puckModel = _gameObjects[e.Obj];
                           Rect3D puckBoundingBox = puckModel.Content.Bounds;
-                          puckBoundingBox.Location = (Point3D)(offsetVector);
+                          puckBoundingBox.Offset(offsetVector);
 
                           // puck moved so we'll check to see if we have hit any cones or targets
                           foreach (var gameObject in _gameObjects.Keys.Where(x => x.Type == ObjectType.Cone || x.Type == ObjectType.Target))
                           {
                               var coneModel = _gameObjects[gameObject];
                               Rect3D objectBoundingBox = coneModel.Content.Bounds;
-                              objectBoundingBox.Location = (Point3D)(gameObject.Position);
+                              objectBoundingBox.Offset(gameObject.Position);
 
                               if (puckBoundingBox.IntersectsWith(objectBoundingBox))
                               {
                                   _engine.PuckCollision(gameObject);
+                                using (StreamWriter w = File.AppendText("log.txt"))
+                                {
+                                    Startup.Log("Collision:", w);
+                                    Startup.Log("Puck Location: " + offsetVector.ToString(), w);
+                                    Startup.Log("Collided with: " + gameObject.ID + " at " + gameObject.Position.ToString(), w);
+                                    Startup.Log("Puck Bounding: " + puckBoundingBox.ToString(), w);
+                                    Startup.Log("Object Bound:  " + objectBoundingBox.ToString(), w);
+                                }
                               }
                           }
                       }

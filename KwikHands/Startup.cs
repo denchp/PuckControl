@@ -25,7 +25,6 @@ namespace KwikHands
             {
                 var ex = (Exception)e.ExceptionObject;
 
-                Log("Exception in MainWindow.Load():", w);
                 Log(ex.Message, w);
                 Log("Stack trace:", w);
                 Log(ex.StackTrace, w);
@@ -43,7 +42,7 @@ namespace KwikHands
             }
         }
 
-        private static void Log(string p, StreamWriter w)
+        public static void Log(string p, StreamWriter w)
         {
             w.WriteLine("{0} - {1}", DateTime.Now, p);
         }

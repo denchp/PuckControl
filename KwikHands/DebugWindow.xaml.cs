@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace KwikHands
@@ -53,7 +54,13 @@ namespace KwikHands
             this.imgCameraView.MouseMove += imgCameraView_MouseMove;
         }
 
-        void imgCameraView_MouseMove(object sender, MouseEventArgs e)
+        public void AddObject(Vector3D position, String name)
+        {
+            TextBox newItem = new TextBox();
+            newItem.Text = name + "\t" + position.ToString();
+            this.ObjectList.Children.Add(newItem);
+        }
+        private void imgCameraView_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_mouseControl)
                 return;
@@ -75,12 +82,12 @@ namespace KwikHands
             _engine.ForceTrackingUpdate((int)mousePosition.X, (int)mousePosition.Y);
         }
 
-        void btnToggleMousecontrol_Click(object sender, RoutedEventArgs e)
+        private void btnToggleMousecontrol_Click(object sender, RoutedEventArgs e)
         {
             _mouseControl = !_mouseControl;
         }
 
-        void _engine_ObjectMotion(object sender, ObjectEventArgs e)
+        private void _engine_ObjectMotion(object sender, ObjectEventArgs e)
         {
             if (e.ObjType == ObjectType.Puck)
             {
@@ -91,7 +98,7 @@ namespace KwikHands
             }
         }
 
-        void DebugWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void DebugWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _engine.NewTrackingImage -= _game_NewCameraImage;
             _engine.NewCameraImage -= _game_NewCameraImage;
@@ -102,7 +109,7 @@ namespace KwikHands
             _engine.ToggleBoxes();
         }
 
-        void btnToggleTracking_Click(object sender, RoutedEventArgs e)
+        private void btnToggleTracking_Click(object sender, RoutedEventArgs e)
         {
             if (_engine.Tracking)
                 _engine.StopTracking();

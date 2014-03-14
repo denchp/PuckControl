@@ -48,7 +48,7 @@ namespace KwikHands.Cones
         {
             _gameTimer = new Timer();
             _countdownHud = new HudItem();
-            ControlType = ControlTypeEnum.Relative;
+            ControlType = ControlTypeEnum.Absolute;
             rand = new Random();
         }
 
@@ -77,7 +77,7 @@ namespace KwikHands.Cones
 
             _puck.Position = new Vector3D(20, 20, 0);
             _puck.Type = ObjectType.Puck;
-            _puck.MotionSmoothingSteps = 3;
+            _puck.MotionSmoothingSteps = 2;
 
             _rink.Type = ObjectType.Rink;
             _rink.ApplyPhysics = false;
@@ -242,16 +242,7 @@ namespace KwikHands.Cones
                 _countdownHud.Type = HudItem.HudItemType.Text;
                 NewCone(new Vector3D(5, 5, 0));
                 NewTarget(new Vector3D(100, 5, 0));
-                //for (int i = -100; i <= 100; i+=10)
-                //{
-                //    for (int j = -100; j <= 100; j += 10)
-                //    {
-                //        if (!( i == 0 && j ==0 ))
-                //            NewCone(new Vector3D(i, j, 0));
-                //        else
-                //            NewTarget(new Vector3D(i, j, 0));
-                //    }
-                //}
+                
                 UpdateInterface();
             }
             else

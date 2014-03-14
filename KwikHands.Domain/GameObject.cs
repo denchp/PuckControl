@@ -13,7 +13,6 @@ namespace KwikHands.Domain
 
         public Int32 Mass { get; set; }
         public Int32 MotionSmoothingSteps { get; set; }
-
         public Vector3D Position
         {
             get {
@@ -22,10 +21,8 @@ namespace KwikHands.Domain
                 if ((Steps = Positions.Count()) == 0)
                     return averagedPosition;
 
-
-                var localPositions = new Vector3D[Steps];
-                Positions.CopyTo(localPositions);
-
+                var localPositions = new Vector3D[10];
+                Positions.CopyTo(localPositions, 0);
                 foreach (var vector in localPositions)
                 {
                     averagedPosition += (vector * (Array.IndexOf(localPositions, vector) + 1));
