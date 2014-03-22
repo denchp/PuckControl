@@ -28,8 +28,10 @@
                     <Label>Toggle Mouse Control</Label>
                 </Button>
             </StackPanel>
-            <StackPanel x:Name="ObjectList">
-            </StackPanel>
+            <ScrollViewer MaxHeight="200">
+                <StackPanel x:Name="ObjectList">
+                </StackPanel>
+            </ScrollViewer>
         </StackPanel>
     </StackPanel>
 </Window>

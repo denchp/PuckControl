@@ -28,11 +28,20 @@ namespace KwikHands
             InitializeComponent();
             _engine = engine;
             btnConesAndTargets.Click += btnConesAndTargets_Click;
+            btnSpeedChallenege.Click += btnSpeedChallenege_Click;
+        }
+
+        void btnSpeedChallenege_Click(object sender, RoutedEventArgs e)
+        {
+
+            _engine.LoadGame<KwikHands.Games.SpeedChallenge>();
+            this.Visibility = System.Windows.Visibility.Collapsed;
+            _engine.StartGame();
         }
 
         void btnConesAndTargets_Click(object sender, RoutedEventArgs e)
         {
-            _engine.LoadGame<KwikHands.Cones.ConesAndTargets>();
+            _engine.LoadGame<KwikHands.Games.ConesAndTargets>();
             this.Visibility = System.Windows.Visibility.Collapsed;
             _engine.StartGame();
         }

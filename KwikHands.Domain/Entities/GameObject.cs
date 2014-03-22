@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace KwikHands.Domain
+namespace KwikHands.Domain.Entities
 {
     public class GameObject
     {
@@ -47,6 +47,7 @@ namespace KwikHands.Domain
         public ObjectType Type { get; set; }
         public String ID { get; set; }
         public bool Active { get; set; }
+        public Rect3D Bounds { get; set; }
 
         public GameObject()
         {

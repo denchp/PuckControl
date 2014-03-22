@@ -1,25 +1,21 @@
 ﻿namespace KwikHands
 {
+    using HelixToolkit.Wpf;
     using KwikHands.Domain;
+    using KwikHands.Domain.Entities;
     using KwikHands.Domain.EventArg;
-    using KwikHands.Tracking;
+    using KwikHands.Engine;
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Media;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Interop;
+    using System.Windows.Markup;
+    using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using System.Windows.Media.Media3D;
-    using System.Linq;
-    using System.Windows.Media;
-    using System.Media;
-    using System.Windows.Resources;
-    using System.Windows.Markup;
-    using HelixToolkit.Wpf;
-    using System.IO;
-    using System.Resources;
-    using KwikHands.Engine;
 
     public partial class MainWindow : Window
     {
@@ -50,16 +46,31 @@
             _engine.NewHudItem += _engine_NewHudItem;
             _engine.NewObject += _engine_NewObject;
             _engine.RemoveObject += _engine_RemoveObject;
+            _engine.GameOver += _engine_GameOver;
             this.KeyDown += MainWindow_KeyDown;
 
             _menuWindow.Visibility = System.Windows.Visibility.Visible;
         }
 
+        void _engine_GameOver(object sender, EventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() => {
+                _menuWindow.Visibility = System.Windows.Visibility.Visible;
+            }));
+            
+        }
+
         void _engine_RemoveObject(object sender, ObjectEventArgs e)
         {
-            var viewportObject = _gameObjects[e.Obj];
-            hlxViewport.Children.Remove(viewportObject);
-            _gameObjects.Remove(e.Obj);
+            this.Dispatcher.Invoke((Action)(() => {
+                try
+                {
+                    var viewportObject = _gameObjects[e.Obj];
+                    hlxViewport.Children.Remove(viewportObject);
+                    _gameObjects.Remove(e.Obj);
+                }
+                catch { }
+            }));
         }
 
         void _engine_NewObject(object sender, ObjectEventArgs e)
@@ -92,28 +103,23 @@
                   try
                   {
                       Transform3DGroup TransformGroup = new Transform3DGroup();
-                      Vector3D offsetVector = new Vector3D(e.Obj.Position.X * -1, e.Obj.Position.Y, e.Obj.Position.Z) * ViewportScalingFactor;
-                      TranslateTransform3D TranslateTransform = new TranslateTransform3D(offsetVector);
+                      Vector3D offsetVector = new Vector3D(e.Obj.Position.X * -1, e.Obj.Position.Y, e.Obj.Position.Z);
+                      TranslateTransform3D TranslateTransform = new TranslateTransform3D(offsetVector * ViewportScalingFactor);
 
                       TransformGroup.Children.Add(TranslateTransform);
+                      e.Obj.Bounds = TranslateTransform.TransformBounds(_gameObjects[e.Obj].Content.Bounds);
+
                       int objIndex = this.hlxViewport.Children.IndexOf(_gameObjects[e.Obj]);
 
                       this.hlxViewport.Children[objIndex].Transform = TransformGroup;
-
+                      
                       if (e.ObjType == ObjectType.Puck)
                       {
-                          var puckModel = _gameObjects[e.Obj];
-                          Rect3D puckBoundingBox = puckModel.Content.Bounds;
-                          puckBoundingBox.Offset(offsetVector);
-
                           // puck moved so we'll check to see if we have hit any cones or targets
                           foreach (var gameObject in _gameObjects.Keys.Where(x => x.Type == ObjectType.Cone || x.Type == ObjectType.Target))
                           {
-                              var coneModel = _gameObjects[gameObject];
-                              Rect3D objectBoundingBox = coneModel.Content.Bounds;
-                              objectBoundingBox.Offset(gameObject.Position);
 
-                              if (puckBoundingBox.IntersectsWith(objectBoundingBox))
+                              if (gameObject.Bounds.IntersectsWith(e.Obj.Bounds))
                               {
                                   _engine.PuckCollision(gameObject);
                                 using (StreamWriter w = File.AppendText("log.txt"))
@@ -121,15 +127,26 @@
                                     Startup.Log("Collision:", w);
                                     Startup.Log("Puck Location: " + offsetVector.ToString(), w);
                                     Startup.Log("Collided with: " + gameObject.ID + " at " + gameObject.Position.ToString(), w);
-                                    Startup.Log("Puck Bounding: " + puckBoundingBox.ToString(), w);
-                                    Startup.Log("Object Bound:  " + objectBoundingBox.ToString(), w);
                                 }
                               }
                           }
                       }
                   }
-                  catch { }
+                  catch (Exception ex)
+                  {
+                      Console.WriteLine("!");
+                  }
               }));
+        }
+
+        private Rect To2D(Rect3D rect3D)
+        {
+            return new Rect(rect3D.X, rect3D.Y, rect3D.SizeX, rect3D.SizeY);
+        }
+
+        private Vector To2D(Vector3D vector3d)
+        {
+            return new Vector(vector3d.X, vector3d.Y);
         }
 
         void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -154,25 +171,6 @@
             UpdateHudItem(e.Item);
         }
 
-        private HitTestResultBehavior ResultCallback(HitTestResult result)
-        {
-            // Did we hit 3D?
-            RayHitTestResult rayResult = result as RayHitTestResult;
-            if (rayResult != null)
-            {
-                // Did we hit a MeshGeometry3D?
-                RayMeshGeometry3DHitTestResult rayMeshResult =
-                    rayResult as RayMeshGeometry3DHitTestResult;
-
-                if (rayMeshResult != null)
-                {
-                    // Yes we did!
-                }
-            }
-
-            return HitTestResultBehavior.Continue;
-        }
-
         public void AddObject(GameObject newObject)
         {
             string resourceName = "";
@@ -188,19 +186,25 @@
                     resourceName = "Target.3ds";
                     break;
                 case ObjectType.Puck:
-                    resourceName = "puck.xaml";
+                    resourceName = "puck.3ds";
                     break;
             }
-            newObject.Position *= ViewportScalingFactor;
 
             this.hlxViewport.Dispatcher.Invoke((Action)(() =>
             {
-                Model3DGroup newModel = GetModel(newObject, resourceName, resourceName.Substring(resourceName.LastIndexOf('.') + 1));
-                ModelVisual3D visual3d = new ModelVisual3D();
-                visual3d.Content = newModel;
-                _gameObjects.Add(newObject, visual3d);
-
-                this.hlxViewport.Children.Add(visual3d);
+                try
+                {
+                    Model3DGroup newModel = GetModel(newObject, resourceName, resourceName.Substring(resourceName.LastIndexOf('.') + 1));
+                    ModelVisual3D visual3d = new ModelVisual3D();
+                    visual3d.Content = newModel;
+        
+                    _gameObjects.Add(newObject, visual3d);
+                    this.hlxViewport.Children.Add(visual3d);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }));
         }
 
@@ -266,7 +270,7 @@
         private Model3DGroup GetModel(GameObject newObject, String resourceName, String fileExt)
         {
             Transform3DGroup TransformGroup = new Transform3DGroup();
-            TranslateTransform3D TranslateTransform = new TranslateTransform3D(newObject.Position);
+            TranslateTransform3D TranslateTransform = new TranslateTransform3D(newObject.Position * ViewportScalingFactor);
             ModelVisual3D newModel = null;
             Model3DGroup newGroup = new Model3DGroup();
             ModelImporter importer = new ModelImporter();
@@ -301,22 +305,19 @@
                 HelixToolkit.Wpf.MeshBuilder meshBuilder = new MeshBuilder();
 
                 var boundingRect = newGroup.Bounds;
-                meshBuilder.AddBox(boundingRect);
-
-                var mesh = meshBuilder.ToMesh();
-                var newGeo = new GeometryModel3D();
-                var boxMat = MaterialHelper.CreateMaterial(Colors.Blue);
-
-                newGeo.Material = boxMat;
-                newGeo.BackMaterial = boxMat;
-                newGeo.Geometry = mesh;
-                newGroup.Children.Add(newGeo);
+                meshBuilder.AddBoundingBox(boundingRect, 3);
             }
 #endif
-
             TransformGroup.Children.Add(TranslateTransform);
             newGroup.Transform = TransformGroup;
 
+            if (newObject.ApplyPhysics)
+            {
+                var rinkBounds = _gameObjects.Where(x => x.Key.Type == ObjectType.Rink).First().Value.Content.Bounds;
+                TranslateTransform.OffsetZ -= (newGroup.Bounds.Z - rinkBounds.Z);
+            }
+            newObject.Bounds = newGroup.Bounds;
+            
             return newGroup;
         }
     }

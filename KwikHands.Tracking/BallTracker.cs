@@ -2,24 +2,22 @@
 {
     using Emgu.CV;
     using Emgu.CV.Structure;
+    using KwikHands.Domain;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
 
-    public class BallTracker : IDisposable
+    public class BallTracker : IDisposable, IBallTracker
     {
-        public event EventHandler<BlobUpdateEventArgs> BallUpdate;
+        public event EventHandler<BallUpdateEventArgs> BallUpdate;
         public event EventHandler NewCameraImage;
 
         public Bitmap CameraImage { get { return _CameraImage.ToBitmap(); } }
         public Bitmap TrackingImage { get { return _TrackingImage.ToBitmap(); } }
-        public bool DrawBoxes = false;
+        public bool DrawBoxes { get; set; }
         private Image<Hsv, byte> _CameraImage;
         private Image<Gray, byte> _TrackingImage;
         
-        private const int WIDTH = 400;
-        private int height = WIDTH / 4 * 3;
-
         private Capture _capture;
 
         private Image<Bgr, byte> _raw;
@@ -34,8 +32,8 @@
         private Gray _maximum = new Gray(255);
 
         private Hsv RED = new Hsv(0, 100, 0);
-        private BlobUpdateEventArgs _outlier;
-        private BlobUpdateEventArgs _lastUpdate;
+        private BallUpdateEventArgs _outlier;
+        private BallUpdateEventArgs _lastUpdate;
 
         const Int32 OUTLIER_LENGTH = 10;
 
@@ -58,7 +56,7 @@
 
                 if (BallUpdate != null)
                 {   // Handle the update!
-                    var args = new BlobUpdateEventArgs();
+                    var args = new BallUpdateEventArgs();
 
                     int halfWidth = (int)(.5 * _currentImage.Width);
                     int halfHeight = (int)(.5 * _currentImage.Height);
@@ -113,7 +111,7 @@
             _tracking = false;
         }
 
-        public void BallTracking()
+        private void BallTracking()
         {
 
             UpdateCurrentImage();
@@ -144,7 +142,7 @@
                     return;
 
                 _color = _raw.Convert<Hsv, byte>();
-                _color._SmoothGaussian(41);
+                _color._SmoothGaussian(11);
 
                 _mask = GetMask();
 
@@ -154,8 +152,9 @@
                 _currentImage = _color.And(_mask.Convert<Hsv, byte>())
                      .ThresholdBinary(new Hsv(0, 85, 5), new Hsv(0, 0, 255)).Convert<Gray, byte>();
             }
-            catch
+            catch (Exception ex)
             { // catch image processing errors...
+                Console.WriteLine(ex.Message);
             }
         }
 

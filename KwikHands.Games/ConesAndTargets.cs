@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Linq;
+using KwikHands.Domain.Entities;
 
-namespace KwikHands.Cones
+namespace KwikHands.Games
 {
     public class ConesAndTargets : IGame
     {
@@ -23,7 +24,6 @@ namespace KwikHands.Cones
         public event EventHandler<ObjectEventArgs> NewObjectEvent;
         public event EventHandler<ObjectEventArgs> RemoveObjectEvent;
         public event EventHandler<ObjectEventArgs> ObjectCollisionEvent;
-        public event EventHandler<ObjectEventArgs> ObjectMotionEvent;
         public event EventHandler<HudItemEventArgs> NewHudItemEvent;
         public event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
         public event EventHandler<MediaEventArgs> MediaEvent;
@@ -41,7 +41,7 @@ namespace KwikHands.Cones
 
         private Uri _bonusSoundUri;
         private Uri _buzzerSoundUri;
-        private string AssemblyName = "KwikHands.Cones";
+        private string AssemblyName = "KwikHands.Games";
 
 
         public ConesAndTargets()
@@ -96,6 +96,7 @@ namespace KwikHands.Cones
                 Name = "Timer",
                 MinumumTrigger = true
             };
+            _timerHud.Changed += UpdateInterface;
 
             _scoreHud = new HudItem()
             {
@@ -106,7 +107,7 @@ namespace KwikHands.Cones
                 Name = "Score",
                 Label = "Score:",
             };
-
+            _scoreHud.Changed += UpdateInterface;
 
             _livesHud = new HudItem()
             {
@@ -118,6 +119,7 @@ namespace KwikHands.Cones
                 Name = "Lives",
                 Label = "Lives:",
             };
+            _livesHud.Changed += UpdateInterface;
 
             _countdownHud = new HudItem()
             {
@@ -128,6 +130,7 @@ namespace KwikHands.Cones
                 Type = HudItem.HudItemType.Numeric,
                 Name = "Countdown",
             };
+            _countdownHud.Changed += UpdateInterface;
 
             _hudItems.Add(_livesHud);
             _hudItems.Add(_countdownHud);
@@ -205,7 +208,7 @@ namespace KwikHands.Cones
             switch (CurrentStage)
             {
                 case GameStages.Countdown: UpdateCountdown(); break;
-                case GameStages.Playing: UpdateInterface(); break;
+                case GameStages.Playing: break;
                 case GameStages.GameOver: GameOver(); break;
             }
         }
@@ -215,17 +218,11 @@ namespace KwikHands.Cones
             throw new NotImplementedException();
         }
 
-        private void UpdateInterface()
+        private void UpdateInterface(object sender, EventArgs args)
         {
-            if (UpdateHudItemEvent == null)
-                return;
-
-            foreach (var hudItem in _hudItems)
-            {
-                if (hudItem.Changed)
-                    UpdateHudItemEvent(this, new HudItemEventArgs() { Item = hudItem });
-
-            }
+            HudItem hudItem = sender as HudItem;
+            if (UpdateHudItemEvent != null)
+                UpdateHudItemEvent(this, new HudItemEventArgs() { Item = hudItem });
         }
 
         private void UpdateCountdown()
@@ -233,7 +230,6 @@ namespace KwikHands.Cones
             if (_countdownHud.Value > 1)
             {
                 _countdownHud.Value -= 1;
-                UpdateInterface();
             }
             else if (_countdownHud.Value == 1)
             {
@@ -241,16 +237,13 @@ namespace KwikHands.Cones
                 _countdownHud.Text = "GO!";
                 _countdownHud.Type = HudItem.HudItemType.Text;
                 NewCone(new Vector3D(5, 5, 0));
-                NewTarget(new Vector3D(100, 5, 0));
-                
-                UpdateInterface();
+                NewTarget(new Vector3D(80, 5, 0));
             }
             else
             {
                 _countdownHud.Visible = false;
                 _countdownHud.Reset();
                 CurrentStage = GameStages.Playing;
-                UpdateInterface();
             }
         }
 
@@ -277,8 +270,6 @@ namespace KwikHands.Cones
 
             if (RemoveObjectEvent != null)
                 RemoveObjectEvent(this, new ObjectEventArgs(obj, obj.Type));
-
-            UpdateInterface();
         }
 
         private void PlayAudio(Uri _buzzerSoundUri)
@@ -296,14 +287,14 @@ namespace KwikHands.Cones
             bool tooClose = false;
 
             do{
-                newLocation = new Vector3D(rand.Next(-100, 100), rand.Next(-100, 100), 0);
+                newLocation = new Vector3D(rand.Next(-80, 80), rand.Next(-80, 80), 0);
                 tooClose = _gameObjects.Where(x => (x.Position - newLocation).Length < 20).Count() > 0;
             }
             while (tooClose);
 
             NewCone(newLocation);
-            Int32 XOffset = rand.Next(-20, 20);
-            Int32 YOffset = (Int32)Math.Sqrt(400 - (XOffset * XOffset));
+            Int32 XOffset = rand.Next(-25, 25);
+            Int32 YOffset = (Int32)Math.Sqrt(Math.Abs(500 - (XOffset * XOffset)));
             NewTarget(newLocation - new Vector3D(XOffset, YOffset, 0));
         }
 

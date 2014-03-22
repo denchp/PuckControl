@@ -342,13 +342,11 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{AF0FD92B-68BE-4136-865E-86184877BF09}</td><td>KWIKHANDS1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{B51783D3-3632-4B2A-8C8B-77404F896399}</td><td>GlobalAssemblyCache</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>KwikHands.Cones.Primary_output</td><td>{45818451-0692-4EEF-92CF-1D468DECE4CD}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.cones.primary_outp</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>KwikHands.Content_Files</td><td>{AF0B728C-7061-4BD7-AABA-031D0B1ED004}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.content_files</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>KwikHands.BlobTracking.Primary_output</td><td>{2258F203-E19E-4F07-9825-22AE6CE54FF8}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.blobtracking.prima</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>KwikHands.Domain.Primary_output</td><td>{BB9CE765-DB65-455D-AEEA-BE0B26227996}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.domain.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>KwikHands.Engine.Primary_output</td><td>{842C0EEB-A5B9-40BD-8A6E-C3A5BBFB517D}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.engine.primary_out</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>KwikHands.Games.Primary_output</td><td>{267B9BBD-577E-48CF-B30C-2BE726AF208C}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.games.primary_outp</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>KwikHands.Primary_output</td><td>{4E00F164-5006-44F8-AB66-7BF99AD55B2C}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>KwikHands.Tracking.Content_Files</td><td>{0E5B59D3-941A-4F0D-B5B9-FEAEE7EC70A6}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.tracking.content_f</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>KwikHands.Tracking.Primary_output</td><td>{463630FE-5ACF-4DA0-9218-F8B55C94485A}</td><td>INSTALLDIR</td><td>2</td><td/><td>kwikhands.tracking.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1874,13 +1872,11 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
-		<row><td>AlwaysInstall</td><td>KwikHands.Cones.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>KwikHands.Content_Files</td></row>
+		<row><td>AlwaysInstall</td><td>KwikHands.BlobTracking.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>KwikHands.Domain.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>KwikHands.Engine.Primary_output</td></row>
+		<row><td>AlwaysInstall</td><td>KwikHands.Games.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>KwikHands.Primary_output</td></row>
-		<row><td>AlwaysInstall</td><td>KwikHands.Tracking.Content_Files</td></row>
-		<row><td>AlwaysInstall</td><td>KwikHands.Tracking.Primary_output</td></row>
 	</table>
 
 	<table name="File">
@@ -1895,13 +1891,11 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>kwikhands.cones.primary_outp</td><td>KwikHands.Cones.Primary_output</td><td>KwikHands.Cones.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Cones&gt;|Built</td><td>3</td><td/></row>
-		<row><td>kwikhands.content_files</td><td>KwikHands.Content_Files</td><td>KwikHands.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands&gt;|ContentFiles</td><td>3</td><td/></row>
+		<row><td>kwikhands.blobtracking.prima</td><td>KwikHands.BlobTracking.Primary_output</td><td>KwikHands.BlobTracking.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.BlobTracking&gt;|Built</td><td>3</td><td/></row>
 		<row><td>kwikhands.domain.primary_out</td><td>KwikHands.Domain.Primary_output</td><td>KwikHands.Domain.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Domain&gt;|Built</td><td>3</td><td/></row>
 		<row><td>kwikhands.engine.primary_out</td><td>KwikHands.Engine.Primary_output</td><td>KwikHands.Engine.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Engine&gt;|Built</td><td>3</td><td/></row>
+		<row><td>kwikhands.games.primary_outp</td><td>KwikHands.Games.Primary_output</td><td>KwikHands.Games.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Games1&gt;|Built</td><td>3</td><td/></row>
 		<row><td>kwikhands.primary_output</td><td>KwikHands.Primary_output</td><td>KwikHands.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands&gt;|Built</td><td>3</td><td/></row>
-		<row><td>kwikhands.tracking.content_f</td><td>KwikHands.Tracking.Content_Files</td><td>KwikHands.Tracking.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Tracking&gt;|ContentFiles</td><td>3</td><td/></row>
-		<row><td>kwikhands.tracking.primary_o</td><td>KwikHands.Tracking.Primary_output</td><td>KwikHands.Tracking.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KwikHands.Tracking&gt;|Built</td><td>3</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2047,13 +2041,11 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_FCA12357_84AA_4CE9_B3ED_4C22272136D0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_DEE2D556_8714_4ECE_8887_918402C50B38_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>KwikHands.Cones.Primary_output</td><td/><td/><td>_797FC757_A028_45A6_BB6E_F6F27F27A761_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>KwikHands.Content_Files</td><td/><td/><td>_B7B07AB1_C8BD_4D58_A9AA_37D1CC948546_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>KwikHands.BlobTracking.Primary_output</td><td/><td/><td>_EDC717E2_4919_413A_B15B_52FF049F46F5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>KwikHands.Domain.Primary_output</td><td/><td/><td>_6575AA06_497B_4505_83C7_DC4DE8DA6091_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>KwikHands.Engine.Primary_output</td><td/><td/><td>_A236EF01_271A_4ADD_80E3_9D4098FA2A6F_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>KwikHands.Games.Primary_output</td><td/><td/><td>_E0E4CD2F_4CCD_490F_8E09_357D7870AE67_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>KwikHands.Primary_output</td><td/><td/><td>_429392F9_BEC5_4054_A2AA_66DC7217E190_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>KwikHands.Tracking.Content_Files</td><td/><td/><td>_BD68A5E7_858A_4CC2_9782_6B96FC13B526_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>KwikHands.Tracking.Primary_output</td><td/><td/><td>_A9048181_C2C2_4ADB_B94B_466701F33A39_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2360,9 +2352,12 @@
 		<row><td>ISProjectDataFolder</td><td/><td/><td>1</td></row>
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
 		<row><td>KwikHands</td><td>KwikHands\KwikHands.csproj</td><td/><td>2</td></row>
+		<row><td>KwikHands.BlobTracking</td><td>KwikHands.BlobTracking\KwikHands.BlobTracking.csproj</td><td/><td>2</td></row>
 		<row><td>KwikHands.Cones</td><td>KwikHands.Cones\KwikHands.Cones.csproj</td><td/><td>2</td></row>
 		<row><td>KwikHands.Domain</td><td>KwikHands.Domain\KwikHands.Domain.csproj</td><td/><td>2</td></row>
 		<row><td>KwikHands.Engine</td><td>KwikEngine\KwikHands.Engine.csproj</td><td/><td>2</td></row>
+		<row><td>KwikHands.Games</td><td>KwikHands.Cones\KwikHands.Games.csproj</td><td/><td>2</td></row>
+		<row><td>KwikHands.Games1</td><td>KwikHands.Games\KwikHands.Games.csproj</td><td/><td>2</td></row>
 		<row><td>KwikHands.Targets</td><td>KwikHands.Targets\KwikHands.Targets.csproj</td><td/><td>2</td></row>
 		<row><td>KwikHands.Tracking</td><td>KwikHands.Tracking\KwikHands.Tracking.csproj</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>

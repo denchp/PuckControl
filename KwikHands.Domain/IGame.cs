@@ -1,4 +1,5 @@
-﻿using KwikHands.Domain.EventArg;
+﻿using KwikHands.Domain.Entities;
+using KwikHands.Domain.EventArg;
 using System;
 using System.Windows.Media.Media3D;
 namespace KwikHands.Domain
@@ -7,9 +8,6 @@ namespace KwikHands.Domain
     {
         event EventHandler<ObjectEventArgs> NewObjectEvent;
         event EventHandler<ObjectEventArgs> RemoveObjectEvent;
-        event EventHandler<ObjectEventArgs> ObjectCollisionEvent;
-        event EventHandler<ObjectEventArgs> ObjectMotionEvent;
-
         event EventHandler<HudItemEventArgs> NewHudItemEvent;
         event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
 

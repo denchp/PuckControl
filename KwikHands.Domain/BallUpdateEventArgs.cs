@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace KwikHands.Tracking
+namespace KwikHands.Domain
 {
-    public class BlobUpdateEventArgs : EventArgs
+    public class BallUpdateEventArgs : EventArgs
     {
         public int BlobId { get; set; }
         public Vector3D PositionVector { get; set; }

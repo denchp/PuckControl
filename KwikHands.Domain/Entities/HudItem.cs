@@ -1,4 +1,4 @@
-﻿namespace KwikHands.Domain
+﻿namespace KwikHands.Domain.Entities
 {
     using System;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@
     {
         public event EventHandler<HudItemEventArgs> MaximumTriggerReached;
         public event EventHandler<HudItemEventArgs> MinimumTriggerReached;
-
+        public event EventHandler<HudItemEventArgs> Changed;
         private Timer _timer = new Timer();
 
         public enum HudItemType
@@ -49,29 +49,64 @@
 
         public String Name { get; set; }
         private Int16 _size;
-        public Int16 Size { get { return _size; } set { _size = value; Changed = true; } }
+        public Int16 Size
+        {
+            get { return _size; }
+            set
+            {
+                _size = value;
+                if (Changed != null)
+                    Changed(this, new HudItemEventArgs() { Item = this });
+            }
+        }
 
         private bool _visible;
-        public bool Visible { get { return _visible; } set { _visible = value; Changed = true; } }
+        public bool Visible
+        {
+            get { return _visible; }
+            set
+            {
+                _visible = value;
+                if (Changed != null)
+                    Changed(this, new HudItemEventArgs() { Item = this });
+            }
+        }
         public Int16 Rotation { get; set; }
 
         private Int32 _value;
-        public Int32 Value { get { return _value; } set { _value = value; Changed = true; } }
+        public Int32 Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                if (Changed != null)
+                    Changed(this, new HudItemEventArgs() { Item = this });
+            }
+        }
 
         public Int32 DefaultValue { get; set; }
         public Int32 MinValue { get; set; }
         public Int32 MaxValue { get; set; }
-        
+
         public bool MinumumTrigger { get; set; }
         public bool MaximumTrigger { get; set; }
-                
+
         public String DefaultText { get; set; }
 
         public String _text;
-        public String Text { get { return _text; } set { _text = value; Changed = true; } }
+        public String Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                if (Changed != null)
+                    Changed(this, new HudItemEventArgs() { Item = this });
+            }
+        }
 
         public String Label { get; set; }
-        public bool Changed { get; private set; }
 
         public void StartTimer()
         {
@@ -83,7 +118,7 @@
         void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (this.TimerOption == TimerType.Up)
-                this.Value += 1; 
+                this.Value += 1;
         }
 
         public HudItem()

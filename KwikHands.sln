@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands", "KwikHands\KwikHands.csproj", "{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Tracking", "KwikHands.Tracking\KwikHands.Tracking.csproj", "{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF397DC4-2C74-43CD-95FD-04F2C6B2BF49}"
 	ProjectSection(SolutionItems) = preProject
 		Performance1.psess = Performance1.psess
@@ -12,12 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Domain", "KwikHands.Domain\KwikHands.Domain.csproj", "{1E4FAE78-59BE-447A-B9C8-70BB922E3523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Cones", "KwikHands.Cones\KwikHands.Cones.csproj", "{044A3897-1327-4E37-9F69-0E67EBB23A3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Games", "KwikHands.Games\KwikHands.Games.csproj", "{044A3897-1327-4E37-9F69-0E67EBB23A3B}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Install", "KwikHands.Install\Install.isproj", "{401B3181-6A19-40DA-9B8D-A67F73681432}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23E03D21-1D7B-4FF7-938C-54888D459E81} = {23E03D21-1D7B-4FF7-938C-54888D459E81}
-		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE} = {5824EF94-E2B0-4F1A-A770-E0C8038F68CE}
+		{044A3897-1327-4E37-9F69-0E67EBB23A3B} = {044A3897-1327-4E37-9F69-0E67EBB23A3B}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Engine", "KwikEngine\KwikHands.Engine.csproj", "{23E03D21-1D7B-4FF7-938C-54888D459E81}"
@@ -30,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C37DDA
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Test", "KwikHands.Test\KwikHands.Test.csproj", "{8FD6B056-A271-4694-A1DB-833BD8D515C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.BlobTracking", "KwikHands.BlobTracking\KwikHands.BlobTracking.csproj", "{80189271-047E-4FE3-8410-647991151110}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,16 +50,6 @@ Global
 		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{089D2245-4AF2-4FA6-8027-35FE4C65A3E8}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{1E4FAE78-59BE-447A-B9C8-70BB922E3523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -108,6 +98,16 @@ Global
 		{8FD6B056-A271-4694-A1DB-833BD8D515C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FD6B056-A271-4694-A1DB-833BD8D515C4}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{8FD6B056-A271-4694-A1DB-833BD8D515C4}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{80189271-047E-4FE3-8410-647991151110}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

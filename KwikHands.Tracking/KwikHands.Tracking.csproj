@@ -53,85 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BallTracker.cs" />
-    <Compile Include="BlobUpdateEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\cublas32_42_9.dll">
-      <Link>cublas32_42_9.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\cudart32_42_9.dll">
-      <Link>cudart32_42_9.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\cufft32_42_9.dll">
-      <Link>cufft32_42_9.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\cvextern.dll">
-      <Link>cvextern.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\npp32_42_9.dll">
-      <Link>npp32_42_9.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_calib3d242.dll">
-      <Link>opencv_calib3d242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_contrib242.dll">
-      <Link>opencv_contrib242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_features2d242.dll">
-      <Link>opencv_features2d242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_ffmpeg242.dll">
-      <Link>opencv_ffmpeg242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_flann242.dll">
-      <Link>opencv_flann242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_gpu242.dll">
-      <Link>opencv_gpu242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_highgui242.dll">
-      <Link>opencv_highgui242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_imgproc242.dll">
-      <Link>opencv_imgproc242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_legacy242.dll">
-      <Link>opencv_legacy242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_objdetect242.dll">
-      <Link>opencv_objdetect242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_photo242.dll">
-      <Link>opencv_photo242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\opencv_video242.dll">
-      <Link>opencv_video242.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\..\Emgu\x86\tbb.dll">
-      <Link>tbb.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="opencv_core242.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\KwikHands.Domain\KwikHands.Domain.csproj">
+      <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
+      <Name>KwikHands.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

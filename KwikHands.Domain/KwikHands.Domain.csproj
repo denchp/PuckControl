@@ -47,16 +47,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractGame.cs" />
+    <Compile Include="BallUpdateEventArgs.cs" />
+    <Compile Include="Entities\Ray.cs" />
     <Compile Include="EventArg\ControlEventArgs.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EventArg\GameStageEventArgs.cs" />
     <Compile Include="EventArg\HudItemEventArgs.cs" />
     <Compile Include="EventArg\ImageEventArgs.cs" />
     <Compile Include="EventArg\MediaEventArgs.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="HudItem.cs" />
+    <Compile Include="Entities\GameObject.cs" />
+    <Compile Include="Entities\HudItem.cs" />
+    <Compile Include="IBallTracker.cs" />
     <Compile Include="IGame.cs" />
-    <Compile Include="MotionControl.cs" />
     <Compile Include="EventArg\ObjectEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

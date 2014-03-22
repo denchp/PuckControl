@@ -7,6 +7,9 @@
             <Button x:Name="btnConesAndTargets" Width="Auto">
                 <Label>Cones and Targets</Label>
             </Button>
+            <Button x:Name="btnSpeedChallenege" Width="Auto">
+                <Label>Speed Challenge</Label>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

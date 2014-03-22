@@ -141,23 +141,28 @@ namespace KwikHands
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    IntPtr hBitmap = e.Image.GetHbitmap();
-
                     try
                     {
-                        var source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap,
-                                    IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
-                        this.imgCameraView.Source = source;
+                        IntPtr hBitmap = e.Image.GetHbitmap();
+
+                        try
+                        {
+                            var source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap,
+                                        IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+                            this.imgCameraView.Source = source;
+                        }
+                        catch
+                        { // hide all errors as updating the image is not-critical.
+                        }
+                        finally
+                        {
+                            e.Image.Dispose();
+                            DeleteObject(hBitmap);
+                        }
                     }
-                    catch
-                    { // hide all errors as updating the image is not-critical.
-                    }
-                    finally
-                    {
-                        e.Image.Dispose();
-                        DeleteObject(hBitmap);
-                    }
+                    catch { }
                 }));
 
             }

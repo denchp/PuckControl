@@ -92,14 +92,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Resource Include="GameAssets\Puck.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="GameAssets\rink.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
     <Page Include="DebugWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,20 +129,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="GameAssets\Target.3ds.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="GameAssets\aim.3ds" />
-    <Content Include="GameAssets\cone_highdef.3ds">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="GameAssets\Target.3ds">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -166,30 +148,14 @@
       <Project>{23e03d21-1d7b-4ff7-938c-54888d459e81}</Project>
       <Name>KwikHands.Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KwikHands.Cones\KwikHands.Cones.csproj">
+    <ProjectReference Include="..\KwikHands.Games\KwikHands.Games.csproj">
       <Project>{044a3897-1327-4e37-9f69-0e67ebb23a3b}</Project>
-      <Name>KwikHands.Cones</Name>
+      <Name>KwikHands.Games</Name>
     </ProjectReference>
     <ProjectReference Include="..\KwikHands.Domain\KwikHands.Domain.csproj">
       <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
       <Name>KwikHands.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KwikHands.Tracking\KwikHands.Tracking.csproj">
-      <Project>{089d2245-4af2-4fa6-8027-35fe4c65a3e8}</Project>
-      <Name>KwikHands.Tracking</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GameAssets\puck_texture.png" />
-    <Resource Include="GameAssets\rink_texture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="GameAssets\boards_texture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GameAssets\aim.bmp" />
-    <Content Include="GameAssets\aim2.bmp" />
-    <Content Include="GameAssets\aim3.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

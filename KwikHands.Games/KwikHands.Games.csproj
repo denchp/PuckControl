@@ -7,8 +7,8 @@
     <ProjectGuid>{044A3897-1327-4E37-9F69-0E67EBB23A3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KwikHands.Cones</RootNamespace>
-    <AssemblyName>KwikHands.Cones</AssemblyName>
+    <RootNamespace>KwikHands.Games</RootNamespace>
+    <AssemblyName>KwikHands.Games</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="ConesAndTargets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RaiseTheBar.cs" />
+    <Compile Include="SpeedChallenge.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KwikHands.Domain\KwikHands.Domain.csproj">
@@ -59,6 +61,9 @@
   <ItemGroup>
     <Resource Include="audio\bonus.wav" />
     <Resource Include="audio\buzzer.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameAssets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
