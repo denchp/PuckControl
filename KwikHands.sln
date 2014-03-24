@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Test", "KwikHands
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.BlobTracking", "KwikHands.BlobTracking\KwikHands.BlobTracking.csproj", "{80189271-047E-4FE3-8410-647991151110}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwikHands.Scoring", "KwikHands.Score\KwikHands.Scoring.csproj", "{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -108,6 +110,16 @@ Global
 		{80189271-047E-4FE3-8410-647991151110}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80189271-047E-4FE3-8410-647991151110}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{80189271-047E-4FE3-8410-647991151110}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

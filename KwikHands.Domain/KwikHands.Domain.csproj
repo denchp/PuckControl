@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="AbstractGame.cs" />
     <Compile Include="BallUpdateEventArgs.cs" />
+    <Compile Include="Entities\ModelMaterial.cs" />
+    <Compile Include="Entities\ModelMetaData.cs" />
     <Compile Include="Entities\Ray.cs" />
     <Compile Include="EventArg\ControlEventArgs.cs" />
     <Compile Include="Enums.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="EventArg\MediaEventArgs.cs" />
     <Compile Include="Entities\GameObject.cs" />
     <Compile Include="Entities\HudItem.cs" />
+    <Compile Include="Exceptions\GameException.cs" />
     <Compile Include="IBallTracker.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="EventArg\ObjectEventArgs.cs" />

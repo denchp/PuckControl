@@ -8,17 +8,7 @@ namespace KwikHands.Domain
 {
     public enum TransformType
     {
-        TranslateX,
-        TranslateY,
-        TranslateZ,
-        RotateX,
-        RotateY, 
-        RotateZ
-    }
-
-    public enum ObjectType
-    {
-        None, Rink, Puck, Cone, Target, Player, Board, Goalie
+        Translate, Rotate, Scale
     }
 
     public enum GameStages

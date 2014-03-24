@@ -41,7 +41,17 @@
             Top, Middle, Bottom
         }
 
-        public HudItemType Type { get; set; }
+        private HudItemType _type;
+        public HudItemType Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                if (Changed != null)
+                    Changed(this, new HudItemEventArgs() { Item = this });
+            }
+        }
         public TimerType TimerOption { get; set; }
         public HudItemStyle Style { get; set; }
         public HorizontalAlignment HorizontalPosition { get; set; }

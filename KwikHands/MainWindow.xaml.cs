@@ -10,6 +10,8 @@
     using System.IO;
     using System.Linq;
     using System.Media;
+    using System.Reflection;
+    using System.Timers;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Markup;
@@ -19,6 +21,8 @@
 
     public partial class MainWindow : Window
     {
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
 
         private Dictionary<GameObject, ModelVisual3D> _gameObjects = new Dictionary<GameObject, ModelVisual3D>();
         KwikEngine _engine;
@@ -27,7 +31,9 @@
         private MediaPlayer _mediaPlayer = new MediaPlayer();
         private double ViewportScalingFactor = .1;
         private DebugWindow _debugWindow;
-        private Menu _menuWindow;
+        private List<IGame> _games;
+        private bool _liveView = true;
+        private int _fps = 0;
 
         public MainWindow()
         {
@@ -35,34 +41,163 @@
 
             this.Closing += MainWindow_Closing;
 
+            _games = FindGames();
+
+            foreach (IGame gameType in _games)
+            {
+                IGame game = (IGame)Activator.CreateInstance(gameType.GetType());
+
+                if (String.IsNullOrWhiteSpace(game.Name))
+                    continue;
+
+                Button tileButton = new Button();
+                tileButton.Background = new SolidColorBrush(game.TileColor);
+                tileButton.BorderThickness = new Thickness(0,0,0,0);
+                tileButton.Height = 200;
+                tileButton.Width = 200;
+
+                Label buttonText = new Label();
+                buttonText.Content = game.Name;
+
+                tileButton.Content = buttonText;
+                tileButton.Click += (s, e) => {
+                    _engine.LoadGame(gameType);
+                    GameList.Visibility = System.Windows.Visibility.Hidden;
+                    MenuBar.Visibility = System.Windows.Visibility.Collapsed;
+                    _engine.StartGame();
+                    };
+
+                GameList.Children.Add(tileButton);
+            }
+
             _engine = new KwikEngine();
             _debugWindow = new DebugWindow(_engine);
-            _menuWindow = new Menu(_engine);
-
+            
             _engine.Init();
             _engine.ObjectMotion += _engine_ObjectMotion;
             _engine.PlayMedia += _engine_MediaEvent;
             _engine.UpdateHudItem += _engine_UpdateHudItem;
             _engine.NewHudItem += _engine_NewHudItem;
+            _engine.RemoveHudItem += _engine_RemoveHudItem;
             _engine.NewObject += _engine_NewObject;
             _engine.RemoveObject += _engine_RemoveObject;
             _engine.GameOver += _engine_GameOver;
+
+            btnEnableCameraView.Click += btnEnableCameraView_Click;
+            btnSettings.Click += btnSettings_Click;
+            btnExit.Click += (s, e) => { this.Close(); };
+
             this.KeyDown += MainWindow_KeyDown;
 
-            _menuWindow.Visibility = System.Windows.Visibility.Visible;
+            var fpsTimer = new System.Windows.Threading.DispatcherTimer();
+            fpsTimer.Tick += (s, e) => { this.txtFPS.Text = _fps.ToString(); _fps = 0; };
+            fpsTimer.Interval = new TimeSpan(0, 0, 1);
+            fpsTimer.Start();
+        }
+
+
+        void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void btnEnableCameraView_Click(object sender, RoutedEventArgs e)
+        {
+            bool showing = this.pnlCameraView.Visibility == System.Windows.Visibility.Collapsed;
+            this.pnlCameraView.Visibility = this.pnlCameraView.Visibility == System.Windows.Visibility.Collapsed ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+
+            if (showing)
+            {
+                if (_liveView)
+                {
+                    _engine.NewTrackingImage -= _engine_NewCameraImage;
+                    _engine.NewCameraImage += _engine_NewCameraImage;
+                }
+                else
+                {
+                    _engine.NewTrackingImage += _engine_NewCameraImage;
+                    _engine.NewCameraImage -= _engine_NewCameraImage;
+                }
+            }
+            else
+            {
+                _engine.NewTrackingImage -= _engine_NewCameraImage;
+                _engine.NewCameraImage -= _engine_NewCameraImage;
+            }
+        }
+
+        private void _engine_NewCameraImage(object sender, ImageEventArgs e)
+        {
+            _fps = ++_fps;
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                try
+                {
+                    IntPtr hBitmap = e.Image.GetHbitmap();
+
+                    try
+                    {
+                        var source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap,
+                                    IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+                        this.imgCameraView.Source = source;
+                    }
+                    catch
+                    { // hide all errors as updating the image is not-critical.
+                    }
+                    finally
+                    {
+                        e.Image.Dispose();
+                        DeleteObject(hBitmap);
+                    }
+                }
+                catch { }
+            }));
+        }
+
+        void _engine_RemoveHudItem(object sender, HudItemEventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                var hudItems = this.HUDGrid.Children;
+                List<FrameworkElement> removeList = new List<FrameworkElement>();
+
+                foreach (var element in hudItems)
+                {
+                    if (((FrameworkElement)element).Name == e.Item.Name)
+                    {
+                        removeList.Add((FrameworkElement)element);
+                    }
+                }
+
+                removeList.ForEach(x => HUDGrid.Children.Remove(x));
+            }));
         }
 
         void _engine_GameOver(object sender, EventArgs e)
         {
-            this.Dispatcher.Invoke((Action)(() => {
-                _menuWindow.Visibility = System.Windows.Visibility.Visible;
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                var delay = new System.Windows.Threading.DispatcherTimer();
+                delay.Tick += (s, args) => {
+                    this.GameList.Visibility = System.Windows.Visibility.Visible;
+                    this.MenuBar.Visibility = System.Windows.Visibility.Visible;
+                    this.GameList.SetValue(Panel.ZIndexProperty, 100);
+                    this.MenuBar.SetValue(Panel.ZIndexProperty, 100);
+                    delay.Stop();
+                };
+                delay.Interval = new TimeSpan(0, 0, 4);
+                delay.Start();
+                //this.HighScoreList.Visibility = System.Windows.Visibility.Visible;
+                
             }));
-            
+
         }
 
         void _engine_RemoveObject(object sender, ObjectEventArgs e)
         {
-            this.Dispatcher.Invoke((Action)(() => {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
                 try
                 {
                     var viewportObject = _gameObjects[e.Obj];
@@ -80,7 +215,7 @@
             {
                 _debugWindow.Dispatcher.Invoke((Action)((() =>
                     {
-                        _debugWindow.AddObject(e.Obj.Position, e.Obj.ID);
+                        _debugWindow.AddObject(e.Obj.Position, e.Obj.Type);
                     })));
             }
         }
@@ -99,44 +234,42 @@
         void _engine_ObjectMotion(object sender, ObjectEventArgs e)
         {
             this.Dispatcher.Invoke((Action)(() =>
-              {
-                  try
-                  {
-                      Transform3DGroup TransformGroup = new Transform3DGroup();
-                      Vector3D offsetVector = new Vector3D(e.Obj.Position.X * -1, e.Obj.Position.Y, e.Obj.Position.Z);
-                      TranslateTransform3D TranslateTransform = new TranslateTransform3D(offsetVector * ViewportScalingFactor);
+                {
+                    try
+                    {
+                        Transform3DGroup TransformGroup = new Transform3DGroup();
+                        Vector3D offsetVector = new Vector3D(e.Obj.Position.X * -1, e.Obj.Position.Y, e.Obj.Position.Z);
+                        TranslateTransform3D TranslateTransform = new TranslateTransform3D(offsetVector * ViewportScalingFactor);
 
-                      TransformGroup.Children.Add(TranslateTransform);
-                      e.Obj.Bounds = TranslateTransform.TransformBounds(_gameObjects[e.Obj].Content.Bounds);
+                        TransformGroup.Children.Add(TranslateTransform);
+                        e.Obj.Bounds = TranslateTransform.TransformBounds(_gameObjects[e.Obj].Content.Bounds);
 
-                      int objIndex = this.hlxViewport.Children.IndexOf(_gameObjects[e.Obj]);
+                        int objIndex = this.hlxViewport.Children.IndexOf(_gameObjects[e.Obj]);
 
-                      this.hlxViewport.Children[objIndex].Transform = TransformGroup;
-                      
-                      if (e.ObjType == ObjectType.Puck)
-                      {
-                          // puck moved so we'll check to see if we have hit any cones or targets
-                          foreach (var gameObject in _gameObjects.Keys.Where(x => x.Type == ObjectType.Cone || x.Type == ObjectType.Target))
-                          {
+                        this.hlxViewport.Children[objIndex].Transform = TransformGroup;
 
-                              if (gameObject.Bounds.IntersectsWith(e.Obj.Bounds))
-                              {
-                                  _engine.PuckCollision(gameObject);
-                                using (StreamWriter w = File.AppendText("log.txt"))
+                        if (e.Obj.TrackCollisions)
+                        {
+                            foreach (var gameObject in _gameObjects.Keys.Where(x => x != e.Obj && x.Model.IsGameWorld == false))
+                            {
+                                if (gameObject.Bounds.IntersectsWith(e.Obj.Bounds))
                                 {
-                                    Startup.Log("Collision:", w);
-                                    Startup.Log("Puck Location: " + offsetVector.ToString(), w);
-                                    Startup.Log("Collided with: " + gameObject.ID + " at " + gameObject.Position.ToString(), w);
+                                    _engine.PuckCollision(gameObject);
+                                    using (StreamWriter w = File.AppendText("log.txt"))
+                                    {
+                                        Startup.Log("Collision:", w);
+                                        Startup.Log("Puck Location: " + offsetVector.ToString(), w);
+                                        Startup.Log("Collided with: " + gameObject.Type + " at " + gameObject.Position.ToString(), w);
+                                    }
                                 }
-                              }
-                          }
-                      }
-                  }
-                  catch (Exception ex)
-                  {
-                      Console.WriteLine("!");
-                  }
-              }));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }));
         }
 
         private Rect To2D(Rect3D rect3D)
@@ -151,8 +284,28 @@
 
         void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.F12)
-                _debugWindow.Visibility = _debugWindow.Visibility == System.Windows.Visibility.Collapsed ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            switch (e.Key)
+            {
+                case System.Windows.Input.Key.F12:
+                    _debugWindow.Visibility = _debugWindow.Visibility == System.Windows.Visibility.Collapsed ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                    break;
+                case System.Windows.Input.Key.C:
+                    _liveView = !_liveView;
+                    if (_liveView)
+                    {
+                        _engine.NewTrackingImage -= _engine_NewCameraImage;
+                        _engine.NewCameraImage += _engine_NewCameraImage;
+                    }
+                    else
+                    {
+                        _engine.NewTrackingImage += _engine_NewCameraImage;
+                        _engine.NewCameraImage -= _engine_NewCameraImage;
+                    }
+                break;
+                case System.Windows.Input.Key.Escape:
+                    _engine.EndGame();
+                break;
+            }
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -163,7 +316,6 @@
 
             _engine.StopTracking();
             _debugWindow.Close();
-            _menuWindow.Close();
         }
 
         private void _engine_UpdateHudItem(object sender, HudItemEventArgs e)
@@ -173,31 +325,14 @@
 
         public void AddObject(GameObject newObject)
         {
-            string resourceName = "";
-            switch (newObject.Type)
-            {
-                case ObjectType.Cone:
-                    resourceName = "cone_highdef.3ds";
-                    break;
-                case ObjectType.Rink:
-                    resourceName = "Rink.xaml";
-                    break;
-                case ObjectType.Target:
-                    resourceName = "Target.3ds";
-                    break;
-                case ObjectType.Puck:
-                    resourceName = "puck.3ds";
-                    break;
-            }
-
             this.hlxViewport.Dispatcher.Invoke((Action)(() =>
             {
                 try
                 {
-                    Model3DGroup newModel = GetModel(newObject, resourceName, resourceName.Substring(resourceName.LastIndexOf('.') + 1));
+                    Model3DGroup newModel = GetModel(newObject, newObject.Model.ModelFile, newObject.Model.ModelFile.Substring(newObject.Model.ModelFile.LastIndexOf('.') + 1));
                     ModelVisual3D visual3d = new ModelVisual3D();
                     visual3d.Content = newModel;
-        
+
                     _gameObjects.Add(newObject, visual3d);
                     this.hlxViewport.Children.Add(visual3d);
                 }
@@ -273,7 +408,6 @@
             TranslateTransform3D TranslateTransform = new TranslateTransform3D(newObject.Position * ViewportScalingFactor);
             ModelVisual3D newModel = null;
             Model3DGroup newGroup = new Model3DGroup();
-            ModelImporter importer = new ModelImporter();
 
             string resourceBase = "pack://application:,,,/KwikHands;component/GameAssets/";
             switch (fileExt)
@@ -285,17 +419,50 @@
                     newModel = (ModelVisual3D)XamlReader.Load(info.Stream);
                     newGroup.Children.Add(newModel.Content);
                     break;
+                case "obj":
+                    ObjReader objReader = new ObjReader();
+                    newGroup = objReader.Read(@"GameAssets\" + resourceName);
+                    break;
                 case "3ds":
+                    ModelImporter importer = new ModelImporter();
                     newGroup = importer.Load(@"GameAssets\" + resourceName);
                     try
                     {
-                        if (File.Exists(@"GameAssets\" + resourceName + ".jpg"))
+                        foreach (var material in newObject.Model.Materials)
                         {
-                            var textureBrush = new ImageBrush(new BitmapImage(new Uri(@"GameAssets\" + resourceName + ".jpg", UriKind.Relative)));
-                            ((GeometryModel3D)newGroup.Children[0]).Material = new DiffuseMaterial(textureBrush);
+                            MaterialGroup materialGroup = new MaterialGroup();
+
+                            Brush materialBrush = new SolidColorBrush(material.DiffuseColor);
+                            materialBrush.Opacity = material.Opacity;
+                            materialGroup.Children.Add(MaterialHelper.CreateMaterial(materialBrush, material.SpecularPower));
+                            
+                            if (!String.IsNullOrWhiteSpace(material.TextureFile))
+                            {
+                                if (File.Exists(@"GameAssets\" + material.TextureFile))
+                                {
+                                    var texture = MaterialHelper.CreateImageMaterial(new BitmapImage(new Uri(@"GameAssets\" + material.TextureFile, UriKind.Relative)), material.Opacity);
+                                    materialGroup.Children.Add(texture);
+                                }
+                            }
+                            
+                            var specular = new SpecularMaterial();
+                            specular.SpecularPower = material.SpecularPower;
+                            specular.Color = material.SpecularColor;
+
+                            var emissive = new EmissiveMaterial();
+                            emissive.Color = material.EmissiveColor;
+                            
+                            materialGroup.Children.Add(specular);
+                            materialGroup.Children.Add(emissive);
+
+                            ((GeometryModel3D)newGroup.Children[material.MeshIndex]).Material = materialGroup;
                         }
+
                     }
-                    catch (Exception ex) { }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                     break;
             }
 
@@ -308,17 +475,57 @@
                 meshBuilder.AddBoundingBox(boundingRect, 3);
             }
 #endif
+            double CenterX = newGroup.Bounds.SizeX / 2;
+            double CenterY = newGroup.Bounds.SizeY / 2;
+            double CenterZ = newGroup.Bounds.SizeZ / 2;
+            ScaleTransform3D ScaleTransform = new ScaleTransform3D(newObject.Scale.X, newObject.Scale.Y, newObject.Scale.Z, CenterX, CenterY, CenterZ);
+
             TransformGroup.Children.Add(TranslateTransform);
+            TransformGroup.Children.Add(ScaleTransform);
+
             newGroup.Transform = TransformGroup;
 
             if (newObject.ApplyPhysics)
             {
-                var rinkBounds = _gameObjects.Where(x => x.Key.Type == ObjectType.Rink).First().Value.Content.Bounds;
+                var rinkBounds = _gameObjects.Where(x => x.Key.Model.IsGameWorld).First().Value.Content.Bounds;
                 TranslateTransform.OffsetZ -= (newGroup.Bounds.Z - rinkBounds.Z);
             }
             newObject.Bounds = newGroup.Bounds;
-            
+
             return newGroup;
+        }
+
+        private List<IGame> FindGames()
+        {
+            List<IGame> games = new List<IGame>();
+            string folder = System.AppDomain.CurrentDomain.BaseDirectory;
+
+            string[] files = Directory.GetFiles(folder, "*.dll");
+
+            foreach (string file in files)
+                try
+                {
+                    Assembly assembly = Assembly.LoadFile(file);
+
+                    foreach (Type type in assembly.GetTypes())
+                    {
+                        Type iface = type.GetInterface("IGame");
+
+                        if (iface != null)
+                        {
+                            try
+                            {
+                                IGame plugin = (IGame)Activator.CreateInstance(type);
+                                games.Add(plugin);
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
+                    }
+                }
+                catch { };
+            return games;
         }
     }
 }

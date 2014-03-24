@@ -9,8 +9,8 @@ namespace KwikHands.Domain.Entities
 {
     public class GameObject
     {
-        public bool ApplyPhysics = true;
-
+        
+        public ModelMetaData Model { get; set; }
         public Int32 Mass { get; set; }
         public Int32 MotionSmoothingSteps { get; set; }
         public Vector3D Position
@@ -44,14 +44,20 @@ namespace KwikHands.Domain.Entities
         private List<Vector3D> Positions { get; set; }
         public Vector3D Motion { get; set; }
         public Vector3D Rotation { get; set; }
-        public ObjectType Type { get; set; }
-        public String ID { get; set; }
+        public String Type { get; set; }
         public bool Active { get; set; }
         public Rect3D Bounds { get; set; }
+        public bool TrackCollisions { get; set; }
+        public bool ControlledObject { get; set; }
+        public bool ApplyPhysics = true;
+
+        public Vector3D Scale { get; set; }
 
         public GameObject()
         {
+            Scale = new Vector3D(1, 1, 1);
             Positions = new List<Vector3D>();
+            Model = new ModelMetaData();
             MotionSmoothingSteps = 1;
         }
     }

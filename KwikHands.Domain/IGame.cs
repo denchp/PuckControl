@@ -1,6 +1,7 @@
 ﻿using KwikHands.Domain.Entities;
 using KwikHands.Domain.EventArg;
 using System;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 namespace KwikHands.Domain
 {
@@ -10,6 +11,7 @@ namespace KwikHands.Domain
         event EventHandler<ObjectEventArgs> RemoveObjectEvent;
         event EventHandler<HudItemEventArgs> NewHudItemEvent;
         event EventHandler<HudItemEventArgs> UpdateHudItemEvent;
+        event EventHandler<HudItemEventArgs> RemoveHudItemEvent;
 
         event EventHandler<MediaEventArgs> MediaEvent;
 
@@ -17,9 +19,14 @@ namespace KwikHands.Domain
 
         GameStages CurrentStage { get; set; }
         ControlTypeEnum ControlType { get; set; }
+        Color TileColor { get; }
+        string Name { get; }
 
         bool Init();
         void StartGame();
+        void EndGame();
         void PuckCollision(GameObject obj);
+        void CleanUp();
+        int GetScore();
     }
 }

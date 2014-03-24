@@ -89,7 +89,7 @@ namespace KwikHands
 
         private void _engine_ObjectMotion(object sender, ObjectEventArgs e)
         {
-            if (e.ObjType == ObjectType.Puck)
+            if (e.Obj.TrackCollisions)
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {

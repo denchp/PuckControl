@@ -10,12 +10,10 @@ namespace KwikHands.Domain.EventArg
     public class ObjectEventArgs : EventArgs
     {
         public GameObject Obj = null;
-        public ObjectType ObjType = ObjectType.None;
 
-        public ObjectEventArgs(GameObject obj = null, ObjectType objType = ObjectType.None)
+        public ObjectEventArgs(GameObject obj = null)
         {
             this.Obj = obj;
-            this.ObjType = objType;
         }
     }
 }
