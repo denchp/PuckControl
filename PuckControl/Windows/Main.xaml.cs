@@ -29,9 +29,11 @@
         private Game _gameWindow;
         private Settings _settingsWindow;
         private Sparkle _sparkle;
+
         public Main()
         {
             InitializeComponent();
+            this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
             System.Drawing.Icon windowIcon;
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PuckControl;component/Assets/pcIcon.ico")).Stream;
@@ -42,10 +44,14 @@
 
             _engine = new GameEngine();
             _debugWindow = new DebugWindow(_engine);
+            _debugWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             _newUserWindow = new NewUser();
+            _newUserWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             _gameWindow = new Game(_engine);
             _highScoresWindow = new HighScores(_engine);
+            _highScoresWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             _settingsWindow = new Settings(_engine, _engine.SettingsRepository);
+            _settingsWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
             this.Closing += MainWindow_Closing;
 
