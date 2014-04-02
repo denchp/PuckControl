@@ -2,6 +2,9 @@
 using PuckControl.Engine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,8 +31,7 @@ namespace PuckControl.Windows
             this.btnToggleLiveImage.Click += ToggleLiveImage;
             this.btnToggleTracking.Click += btnToggleTracking_Click;
             this.btnToggleBoxes.Click += btnToggleBoxes_Click;
-            this.btnToggleMousecontrol.Click += btnToggleMousecontrol_Click;
-
+            
             if (engine != null)
             {
                 _engine = engine;
@@ -46,6 +48,20 @@ namespace PuckControl.Windows
             fpsTimer.Start();
 
             this.Closing += DebugWindow_Closing;
+            GetFileVersions();
+        }
+
+        private void GetFileVersions()
+        {
+            string folder = System.AppDomain.CurrentDomain.BaseDirectory;
+
+            string[] files = Directory.GetFiles(folder, "PuckControl.*.dll");
+
+            foreach (string file in files)
+            {
+                var info = FileVersionInfo.GetVersionInfo(file);
+                FileVersions.Children.Add(new Label() { Content = file.Substring(file.LastIndexOf("\\") + 1) + ": " + info.FileVersion });
+            }
         }
 
         void _engine_NewObject(object sender, ObjectEventArgs e)

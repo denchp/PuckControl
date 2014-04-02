@@ -52,7 +52,7 @@
 	<summary>
 		<codepage>1252</codepage>
 		<title>Installation Database</title>
-		<subject>KwikHands</subject>
+		<subject>##ID_STRING8##</subject>
 		<author>##ID_STRING3##</author>
 		<keywords>Installer,MSI,Database</keywords>
 		<comments>Contact:  Your local administrator</comments>
@@ -342,6 +342,7 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{AF0FD92B-68BE-4136-865E-86184877BF09}</td><td>HEADSUP</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{B51783D3-3632-4B2A-8C8B-77404F896399}</td><td>GlobalAssemblyCache</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{2722DCF1-F5FE-4E79-B62B-D113D5E0E352}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.BlobTracking.Primary_output</td><td>{4A58F2BF-5783-44FA-99B8-8138C351B45A}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.blobtracking.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.Domain.Primary_output</td><td>{8CC53E37-E43C-4F8D-B302-D5E2489A1481}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.domain.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.Engine.Primary_output</td><td>{02ABBB1B-203E-4861-8844-29702FBC0675}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.engine.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1060,6 +1061,7 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>GlobalAssemblyCache</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>HEADSUP</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1075,6 +1077,7 @@
 		<row><td>ISSelfRegisterCosting</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterCosting</td><td/><td/></row>
 		<row><td>ISSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFiles</td><td/><td/></row>
 		<row><td>ISSelfRegisterFinalize</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFinalize</td><td/><td/></row>
+		<row><td>ISSetAllUsers</td><td>257</td><td>SetAllUsers.dll</td><td>SetAllUsers</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISUnSelfRegisterFiles</td><td/><td/></row>
 		<row><td>LaunchProgramFileFromSetupCompleteSuccess</td><td>1</td><td>NewBinary19</td><td>LaunchProgram</td><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
@@ -1181,6 +1184,7 @@
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
+		<row><td>newfolder1</td><td>ProgramMenuFolder</td><td>##ID_STRING6##</td><td/><td>1</td><td/></row>
 	</table>
 
 	<table name="DrLocator">
@@ -1874,6 +1878,7 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.BlobTracking.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.Domain.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.Engine.Primary_output</td></row>
@@ -2047,6 +2052,7 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_FCA12357_84AA_4CE9_B3ED_4C22272136D0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_DEE2D556_8714_4ECE_8887_918402C50B38_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_39982E68_4756_4E0D_804F_A00037271A41_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.BlobTracking.Primary_output</td><td/><td/><td>_D73AC2D4_BDF3_4CF1_B1B4_A68C438892BC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.Domain.Primary_output</td><td/><td/><td>_8971435B_452A_406C_8DD7_5EEE2CD859A3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.Engine.Primary_output</td><td/><td/><td>_026451C5_4F40_40C2_ABD8_21CF3E51D50B_FILTER</td><td/><td/><td/><td/></row>
@@ -2686,7 +2692,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1033</td><td>Patrick Dench</td><td>0</td><td/><td>1235387603</td></row>
+		<row><td>COMPANY_NAME</td><td>1033</td><td>Heads Up Technology</td><td>0</td><td/><td>-375225515</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1033</td><td>Always Install</td><td>0</td><td/><td>1235371219</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1033</td><td>The color settings of your system are not adequate for running [ProductName].</td><td>0</td><td/><td>1235371219</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>1033</td><td>The operating system is not adequate for running [ProductName].</td><td>0</td><td/><td>1235371219</td></row>
@@ -3787,8 +3793,13 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>1235371219</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>1235371219</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>1235371219</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>http://www.coachdench.com</td><td>0</td><td/><td>1235402067</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>http://www.headsup.technology</td><td>0</td><td/><td>-375257005</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Patrick Dench</td><td>0</td><td/><td>1235387603</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>http://www.headsup.technology/puckcontrol/support</td><td>0</td><td/><td>-375252877</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>PUCKCO~1|PuckControl (Beta)</td><td>0</td><td/><td>-241001965</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>HeadsUp</td><td>0</td><td/><td>-241030637</td></row>
+		<row><td>ID_STRING7</td><td>1033</td><td>PUCKCO~1|PuckControl (Beta)</td><td>0</td><td/><td>-241008109</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td>PuckControl</td><td>0</td><td/><td>-241016269</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1235371219</td></row>
 	</table>
 
@@ -3942,6 +3953,7 @@
 		<row><td>ISSelfRegisterCosting</td><td/><td>2201</td><td/><td/></row>
 		<row><td>ISSelfRegisterFiles</td><td/><td>5601</td><td/><td/></row>
 		<row><td>ISSelfRegisterFinalize</td><td/><td>6601</td><td/><td/></row>
+		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td/><td>2202</td><td/><td/></row>
 		<row><td>InstallFiles</td><td/><td>4000</td><td>InstallFiles</td><td/></row>
 		<row><td>InstallFinalize</td><td/><td>6600</td><td>InstallFinalize</td><td/></row>
@@ -3973,7 +3985,7 @@
 		<row><td>RegisterUser</td><td/><td>6000</td><td>RegisterUser</td><td/></row>
 		<row><td>RemoveDuplicateFiles</td><td/><td>3400</td><td>RemoveDuplicateFiles</td><td/></row>
 		<row><td>RemoveEnvironmentStrings</td><td/><td>3300</td><td>RemoveEnvironmentStrings</td><td/></row>
-		<row><td>RemoveExistingProducts</td><td/><td>1410</td><td>RemoveExistingProducts</td><td/></row>
+		<row><td>RemoveExistingProducts</td><td/><td>1500</td><td>RemoveExistingProducts</td><td/></row>
 		<row><td>RemoveFiles</td><td/><td>3500</td><td>RemoveFiles</td><td/></row>
 		<row><td>RemoveFolders</td><td/><td>3600</td><td>RemoveFolders</td><td/></row>
 		<row><td>RemoveIniValues</td><td/><td>3100</td><td>RemoveIniValues</td><td/></row>
@@ -4029,7 +4041,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{BFE3FF6D-31FD-4281-A6BF-76F4BB4218F8}</td></row>
 		<row><td>ISUSSignature</td><td>{4F67E46D-A192-40EC-B551-C70BBF53C11B}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewFeatureFiles,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewFileExtensions,viewObjects</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewFeatureFiles,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewFileExtensions,viewObjects,viewProject,viewShortcuts,viewUpgradePaths,viewRealSetupDesign,viewUpdateService,viewRegistry,viewDependencies</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4062,6 +4074,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>FindRelatedProducts</td><td/><td>430</td><td>FindRelatedProducts</td><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
+		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Not Installed</td><td>1210</td><td>InstallWelcome</td><td/></row>
 		<row><td>IsolateComponents</td><td/><td>950</td><td>IsolateComponents</td><td/></row>
 		<row><td>LaunchConditions</td><td>Not Installed</td><td>410</td><td>LaunchConditions</td><td/></row>
@@ -4337,6 +4350,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L0">Value</col>
 		<col def="S255">ISComments</col>
 		<row><td>ALLUSERS</td><td>1</td><td/></row>
+		<row><td>ARPHELPLINK</td><td>##ID_STRING4##</td><td/></row>
 		<row><td>ARPINSTALLLOCATION</td><td/><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
@@ -4377,8 +4391,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>IS_SQLSERVER_USERNAME</td><td>sa</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
-		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{4E00F164-5006-44F8-AB66-7BF99AD55B2C}</td><td/></row>
-		<row><td>LAUNCHPROGRAMFILEKEY</td><td>kwikhands.primary_output</td><td/></row>
+		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{994D91A1-F388-46A4-B44A-2B907136B8FC}</td><td/></row>
+		<row><td>LAUNCHPROGRAMFILEKEY</td><td>puckcontrol.primary_output</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
@@ -4406,10 +4420,10 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]KwikHands.Primary output</td><td/></row>
+		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]PuckControl.Primary output</td><td/></row>
 		<row><td>ProductCode</td><td>{B2DD3984-EB94-4DB3-BBDD-C7F967A19A15}</td><td/></row>
-		<row><td>ProductName</td><td>KwikHands</td><td/></row>
-		<row><td>ProductVersion</td><td>1.00.0000</td><td/></row>
+		<row><td>ProductName</td><td>PuckControl (Beta)</td><td/></row>
+		<row><td>ProductVersion</td><td>0.3.100</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4485,6 +4499,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
+		<row><td>NewShortcut1</td><td>PuckControl.Primary_output</td><td/><td>newfolder1</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4570,6 +4585,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>NewShortcut1</td><td>newfolder1</td><td>##ID_STRING5##</td><td>PuckControl.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut2</td><td>DesktopFolder</td><td>##ID_STRING7##</td><td>PuckControl.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

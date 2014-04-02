@@ -24,14 +24,15 @@
                 <Button x:Name="btnToggleBoxes" Width="Auto">
                     <Label>Toggle Tracking Boxes</Label>
                 </Button>
-                <Button x:Name="btnToggleMousecontrol" Width="Auto">
-                    <Label>Toggle Mouse Control</Label>
-                </Button>
             </StackPanel>
             <ScrollViewer MaxHeight="200">
                 <StackPanel x:Name="ObjectList">
                 </StackPanel>
             </ScrollViewer>
+        </StackPanel>
+        <Label Content="File Versions:"/>
+        <StackPanel Name="FileVersions">
+            
         </StackPanel>
     </StackPanel>
 </Window>

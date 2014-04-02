@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\..\Google Drive\Settings Files\Custom.ruleset = ..\..\..\Google Drive\Settings Files\Custom.ruleset
 		CustomDictionary.xml = CustomDictionary.xml
 		Performance1.psess = Performance1.psess
+		READ_ME.txt = READ_ME.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Domain", "PuckControl.Domain\PuckControl.Domain.csproj", "{1E4FAE78-59BE-447A-B9C8-70BB922E3523}"
