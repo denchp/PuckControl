@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>HelixToolkit</id>
+    <version>2014.2.13.1</version>
+    <title>HelixToolkit</title>
+    <authors>objo</authors>
+    <owners>objo</owners>
+    <licenseUrl>http://helixtoolkit.codeplex.com/license</licenseUrl>
+    <projectUrl>http://helixtoolkit.codeplex.com/</projectUrl>
+    <iconUrl>http://www.objo.net/codeplex/icons/helixtoolkit.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core assembly (PCL) for all Helix 3D Toolkit assemblies.</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>3D wpf</tags>
+  </metadata>
+</package>

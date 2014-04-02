@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F68AC624-304D-44D3-8979-5EC887EF43F7}</ProjectGuid>
+    <ProjectGuid>{80189271-047E-4FE3-8410-647991151110}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PuckControl.Data.Dat</RootNamespace>
-    <AssemblyName>PuckControl.Data.Dat</AssemblyName>
+    <RootNamespace>PuckControl.BlobTracking</RootNamespace>
+    <AssemblyName>PuckControl.BlobTracking</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>..\..\..\..\Google Drive\Settings Files\Custom.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -37,22 +39,31 @@
     <AssemblyOriginatorKeyFile>keyFile.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>..\..\..\AForge\Libraries\Release\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>..\..\..\AForge\Libraries\Release\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging.Formats">
+      <HintPath>..\..\..\AForge\Libraries\Release\AForge.Imaging.Formats.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video">
+      <HintPath>..\..\..\AForge\Libraries\Release\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>..\..\..\AForge\Libraries\Release\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Core">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CSharp">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data">
+    <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml">
@@ -60,10 +71,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatRepository.cs" />
+    <Compile Include="BlobBallTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PuckControl.Data.File\PuckControl.Data.Dat.csproj">
+      <Project>{f68ac624-304d-44d3-8979-5ec887ef43f7}</Project>
+      <Name>PuckControl.Data.Dat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuckControl.Domain\PuckControl.Domain.csproj">
       <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
       <Name>PuckControl.Domain</Name>

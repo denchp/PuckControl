@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F68AC624-304D-44D3-8979-5EC887EF43F7}</ProjectGuid>
+    <ProjectGuid>{23E03D21-1D7B-4FF7-938C-54888D459E81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PuckControl.Data.Dat</RootNamespace>
-    <AssemblyName>PuckControl.Data.Dat</AssemblyName>
+    <RootNamespace>PuckControl.Engine</RootNamespace>
+    <AssemblyName>PuckControl.Engine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>..\..\..\..\Google Drive\Settings Files\Custom.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -37,10 +40,16 @@
     <AssemblyOriginatorKeyFile>keyFile.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
@@ -60,17 +69,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatRepository.cs" />
+    <Compile Include="GameEngine.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PuckControl.BlobTracking\PuckControl.BlobTracking.csproj">
+      <Project>{80189271-047e-4fe3-8410-647991151110}</Project>
+      <Name>PuckControl.BlobTracking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PuckControl.Data.File\PuckControl.Data.Dat.csproj">
+      <Project>{f68ac624-304d-44d3-8979-5ec887ef43f7}</Project>
+      <Name>PuckControl.Data.Dat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuckControl.Domain\PuckControl.Domain.csproj">
       <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
       <Name>PuckControl.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PuckControl.Score\PuckControl.Scoring.csproj">
+      <Project>{8df9a590-8182-4957-bd85-9d3eff5d3ac7}</Project>
+      <Name>PuckControl.Scoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PuckControl.UserManager\PuckControl.UserManager.csproj">
+      <Project>{f6345071-9375-449c-b7da-ba5e6bd50568}</Project>
+      <Name>PuckControl.UserManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="keyFile.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\PuckControl.Domain\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

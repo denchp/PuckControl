@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F68AC624-304D-44D3-8979-5EC887EF43F7}</ProjectGuid>
+    <ProjectGuid>{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PuckControl.Data.Dat</RootNamespace>
-    <AssemblyName>PuckControl.Data.Dat</AssemblyName>
+    <RootNamespace>PuckControl.Scoring</RootNamespace>
+    <AssemblyName>PuckControl.Scoring</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\..\..\Google Drive\Settings Files\Custom.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
@@ -41,6 +43,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
@@ -60,10 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatRepository.cs" />
+    <Compile Include="LocalScoreKeeper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PuckControl.Data.File\PuckControl.Data.Dat.csproj">
+      <Project>{f68ac624-304d-44d3-8979-5ec887ef43f7}</Project>
+      <Name>PuckControl.Data.Dat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuckControl.Domain\PuckControl.Domain.csproj">
       <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
       <Name>PuckControl.Domain</Name>

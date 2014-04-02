@@ -1,0 +1,1 @@
+NetSparkleDSAHelper.exe /sign_update ../PuckControl.Install\PuckControl.Install\Express\SingleImage\DiskImages\DISK1\setup.exe NetSparkle_DSA.priv > ../PuckControl.Install\PuckControl.Install\Express\SingleImage\DiskImages\DISK1\dsakey.txt

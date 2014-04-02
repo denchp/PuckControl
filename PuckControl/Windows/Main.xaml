@@ -1,0 +1,30 @@
+﻿<Window x:Class="PuckControl.Windows.Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:pc="clr-namespace:PuckControl.Controls"
+        Title="" Height="600" Width="800" >
+    <Grid Background="#001A34" x:Name="HUDGrid">
+        <Menu IsMainMenu="True"  VerticalAlignment="Top" Background="#152B40" Visibility="Visible">
+            <Menu.Resources>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </Menu.Resources>
+            <MenuItem Header="_File">
+                <MenuItem Header="_NewUser" Foreground="Black" Click="NewUser"/>
+                <MenuItem Header="_Settings" Foreground="Black" Click="ShowSettings"/>
+            </MenuItem>
+            <MenuItem Header="_Help"/>
+        </Menu>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Name="TileMenu">
+            <pc:ControlScroller VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+                <StackPanel Orientation="Horizontal" x:Name="UserList" VerticalAlignment="Center" HorizontalAlignment="Center">
+                </StackPanel>
+            </pc:ControlScroller>
+            <pc:ControlScroller VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+                <StackPanel Orientation="Horizontal"  x:Name="GameList" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                </StackPanel>
+            </pc:ControlScroller>
+        </StackPanel>
+    </Grid>
+</Window>
