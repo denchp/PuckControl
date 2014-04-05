@@ -7,6 +7,7 @@ namespace PuckControl.Domain.Interfaces
     public interface IBallTracker : ISettingsModule
     {
         event EventHandler<BallUpdateEventArgs> BallUpdate;
+        event EventHandler LostBall;
 
         Bitmap CameraImage { get; }
         Bitmap TrackingImage { get; }

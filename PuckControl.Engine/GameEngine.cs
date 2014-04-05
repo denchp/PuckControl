@@ -30,6 +30,8 @@ namespace PuckControl.Engine
         public event EventHandler<HUDItemEventArgs> RemoveHUDItem;
         public event EventHandler TrackingUpdateReceived;
         public event EventHandler GameOver;
+        public event EventHandler LostBall;
+        public event EventHandler FoundBall;
 
         public bool Tracking { get; set; }
         public double MaxSpeed { get; set; }
@@ -74,7 +76,8 @@ namespace PuckControl.Engine
             try
             {
                 _tracker = new BlobBallTracker();
-                _RegisterSettings(_tracker);
+                _tracker.LostBall += _tracker_LostBall;
+                RegisterSettings(_tracker);
                 _tracker.NewCameraImage += _tracker_NewCameraImages;
             }
             catch (NotSupportedException)
@@ -85,7 +88,7 @@ namespace PuckControl.Engine
                 throw;
             }                
         }
-
+        
         public void StartGame()
         {
             _game.Reset();
@@ -198,11 +201,17 @@ namespace PuckControl.Engine
             }
         }
 
-        private void _RegisterSettings(ISettingsModule sender)
+        void _tracker_LostBall(object sender, EventArgs e)
         {
-            _settingModules.Add(sender);
+            if (LostBall != null)
+                LostBall(this, new EventArgs());
+        }
+        
+        private void RegisterSettings(ISettingsModule module)
+        {
+            _settingModules.Add(module);
 
-            var settings = ((ISettingsModule)sender).Settings;
+            var settings = ((ISettingsModule)module).Settings;
             var keyList = Settings.Select(x => x.Key).ToList();
 
             foreach (var setting in settings)
@@ -325,6 +334,9 @@ namespace PuckControl.Engine
 
         private void _tracker_BallUpdate(object sender, BallUpdateEventArgs e)
         {
+            if (FoundBall != null)
+                FoundBall(this, new EventArgs());
+
             if (ObjectMotion == null)
                 return;
 
@@ -376,6 +388,7 @@ namespace PuckControl.Engine
             foreach (var module in _settingModules)
             {
                 module.ReloadSettings();
+                RegisterSettings(module);
             }
         }
 

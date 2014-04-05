@@ -21,5 +21,6 @@
                 <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="ExtraBold" x:Name="txtUPS" Visibility="Collapsed"></TextBlock>
             </StackPanel>
         </Canvas>
+        <Image Source="pack://application:,,,/Assets/Caution_sign.png" Height="100" Margin="0,50,0,0" Name="LostBallImage" Visibility="Hidden"/>
     </Grid>
 </Window>

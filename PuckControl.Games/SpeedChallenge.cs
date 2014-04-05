@@ -46,12 +46,15 @@ namespace PuckControl.Games
         {
             try
             {
-                _gameTimer = new Timer();
+                if (_gameTimer == null)
+                    _gameTimer = new Timer();
                 ControlType = ControlType.Absolute;
                 rand = new Random();
 
-                _bonusSoundUri = new Uri("pack://application:,,,/" + AssemblyName + ";component/audio/bonus.wav");
-                _buzzerSoundUri = new Uri("pack://application:,,,/" + AssemblyName + ";component/audio/buzzer.wav");
+                if (_bonusSoundUri == null)
+                    _bonusSoundUri = new Uri("pack://application:,,,/" + AssemblyName + ";component/audio/bonus.wav");
+                if (_buzzerSoundUri == null)
+                    _buzzerSoundUri = new Uri("pack://application:,,,/" + AssemblyName + ";component/audio/buzzer.wav");
 
                 AddRink();
                 AddPuck();
@@ -202,6 +205,7 @@ namespace PuckControl.Games
                 _countdownHUD.ItemType = HUDItemType.Text;
                 _countdownHUD.Text = "GO!";
                 AddTarget();
+                AddTarget();
             }
             else
             {
@@ -218,9 +222,11 @@ namespace PuckControl.Games
             do
             {
                 newLocation = new Vector3D(rand.Next(-80, 80), rand.Next(-80, 80), 0);
-            } while ((_lastTarget - newLocation).Length < 20);
+            } while ((_lastTarget - newLocation).Length < 30);
+            _lastTarget = newLocation;
 
             NewTarget(newLocation);
+            
         }
     }
 }

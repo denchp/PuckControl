@@ -24,6 +24,7 @@ namespace PuckControl.Scoring
         {
             //var scores = new IEnumerable<Score>();
             var scores = _repository.All;
+            scores = scores.OrderByDescending(x => x.FinalScore);
 
             int rank = 0;
             foreach (var score in scores)

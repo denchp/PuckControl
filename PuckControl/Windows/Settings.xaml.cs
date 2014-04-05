@@ -61,6 +61,9 @@ namespace PuckControl.Windows
         {
             var sections = _engine.Settings.Select(x => x.Section).Distinct().ToList();
             SettingsList.DataContext = sections;
+
+            if (SettingsList.SelectedValue != null)
+                Settings_SelectionChanged(SettingsList, null);
         }
 
         void Settings_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -76,6 +79,7 @@ namespace PuckControl.Windows
                     ComboSettingControl newControl = new ComboSettingControl();
                     newControl.Setting = setting;
                     newControl.DataContext = newControl;
+                    newControl.SettingChanged += (s, args) => { ApplySettings_Click(this, new RoutedEventArgs()); };
                     SettingsStack.Children.Add(newControl);
                 }
                 else

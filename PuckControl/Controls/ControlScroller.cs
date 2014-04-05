@@ -48,14 +48,16 @@ namespace PuckControl.Controls
 
             LeftButton.Click +=LeftButton_Click;
             RightButton.Click +=RightButton_Click;
-
-            if (this.Width > base.ScrollableWidth)
-            {
-                LeftButton.Visibility = System.Windows.Visibility.Collapsed;
-                RightButton.Visibility = System.Windows.Visibility.Collapsed;
-            }
+            this.LayoutUpdated += ControlScroller_LayoutUpdated;
         }
 
+        void ControlScroller_LayoutUpdated(object sender, EventArgs e)
+        {
+            LeftButton.Visibility = this.ComputedHorizontalScrollBarVisibility;
+            RightButton.Visibility = this.ComputedHorizontalScrollBarVisibility;
+        }
+
+        
         void RightButton_Click(object sender, RoutedEventArgs e)
         {
             double startOffset = base.HorizontalOffset;

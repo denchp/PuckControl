@@ -39,8 +39,8 @@
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PuckControl;component/Assets/pcIcon.ico")).Stream;
             windowIcon = new System.Drawing.Icon(iconStream);
 
-            _sparkle = new Sparkle("http://www.headsup.technology/download/betaupdates", windowIcon); 
-            _sparkle.StartLoop(true);
+            //_sparkle = new Sparkle("http://www.headsup.technology/download/betaupdates", windowIcon); 
+            //_sparkle.StartLoop(true);
 
             _engine = new GameEngine();
             _debugWindow = new DebugWindow(_engine);

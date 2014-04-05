@@ -63,7 +63,7 @@
                 <ControlTemplate TargetType="{x:Type pc:ComboSettingControl}">
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                         <Label Content="{Binding Path=Setting.Key}" MinWidth="150"/>
-                        <ComboBox ItemsSource="{Binding Path=Setting.Options}" SelectedValuePath="Key">
+                        <ComboBox ItemsSource="{Binding Path=Setting.Options}" SelectedValuePath="Key" Name="cmbOptions">
                             <ComboBox.SelectedValue>
                                 <Binding Path="Setting.SelectedOption" Mode="TwoWay"/>
                             </ComboBox.SelectedValue>
@@ -127,7 +127,7 @@
 
     <Style TargetType="{x:Type pc:ControlScroller}">
         <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="CanContentScroll" Value="False" />
         <Setter Property="Template">
             <Setter.Value>

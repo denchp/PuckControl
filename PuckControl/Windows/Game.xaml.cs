@@ -16,6 +16,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace PuckControl.Windows
 {
@@ -31,12 +32,16 @@ namespace PuckControl.Windows
         private Dictionary<GameObject, ModelVisual3D> _gameObjects;
         private SoundPlayer _player;
         private double ViewportScalingFactor = .1;
-        
+        private DispatcherTimer _blinkerTimer;
+
         public Game(GameEngine engine)
         {
             InitializeComponent();
             _gameObjects = new Dictionary<GameObject, ModelVisual3D>();
             _player = new SoundPlayer();
+            _blinkerTimer = new DispatcherTimer();
+            _blinkerTimer.Interval = new TimeSpan(0, 0, 0, 0, 250);
+            _blinkerTimer.Start();
 
             var oneSecondTimer = new System.Windows.Threading.DispatcherTimer();
             
@@ -52,7 +57,7 @@ namespace PuckControl.Windows
             _engine.NewObject += _engine_NewObject;
             _engine.RemoveObject += _engine_RemoveObject;
             _engine.TrackingUpdateReceived += _engine_TrackingUpdateReceived;
-
+            _engine.LostBall += _engine_LostBall;
             oneSecondTimer.Tick += (s, e) =>
             {
                 this.txtFPS.Text = "FPS: " + _fps.ToString();
@@ -65,6 +70,40 @@ namespace PuckControl.Windows
             oneSecondTimer.Interval = new TimeSpan(0, 0, 1);
             oneSecondTimer.Start();
             this.KeyDown += Game_KeyDown;
+            this.Closing += Game_Closing;
+        }
+
+        void _engine_LostBall(object sender, EventArgs e)
+        {
+            _engine.LostBall -= _engine_LostBall;
+            _engine.FoundBall += _engine_FoundBall;
+            _blinkerTimer.Tick += ToggleLostBallImage;      
+        }
+
+        void _engine_FoundBall(object sender, EventArgs e)
+        {
+            _engine.FoundBall -= _engine_FoundBall;
+            _blinkerTimer.Tick -= ToggleLostBallImage;
+            _engine.LostBall +=_engine_LostBall;
+
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                LostBallImage.Visibility = System.Windows.Visibility.Hidden;
+            }));
+        }
+
+        private void ToggleLostBallImage(object sender, EventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                LostBallImage.Visibility = LostBallImage.Visibility == System.Windows.Visibility.Visible ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
+            }));
+        }
+
+        void Game_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            _engine.EndGame();
         }
 
         void Game_KeyDown(object sender, KeyEventArgs e)
