@@ -94,9 +94,9 @@
       <Project>{8df9a590-8182-4957-bd85-9d3eff5d3ac7}</Project>
       <Name>PuckControl.Scoring</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PuckControl.UserManager\PuckControl.UserManager.csproj">
+    <ProjectReference Include="..\PuckControl.UserManager\PuckControl.Users.csproj">
       <Project>{f6345071-9375-449c-b7da-ba5e6bd50568}</Project>
-      <Name>PuckControl.UserManager</Name>
+      <Name>PuckControl.Users</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

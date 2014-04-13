@@ -5,7 +5,7 @@ using PuckControl.Domain.EventArg;
 using PuckControl.Domain.Interfaces;
 using PuckControl.Scoring;
 using PuckControl.Tracking;
-using PuckControl.UserManager;
+using PuckControl.Users;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -61,8 +61,8 @@ namespace PuckControl.Engine
             _userManagers = new HashSet<IUserManager>();
             _settingModules = new HashSet<ISettingsModule>();
 
-            _scorekeepers.Add(new LocalScorekeeper(_dataService));
-            _userManagers.Add(new LocalUserManager(_dataService));
+            _scorekeepers.Add(new Scorekeeper(_dataService));
+            _userManagers.Add(new UserManager(_dataService));
                 
             MaxSpeed = 4;
             ControlDeadZone = .5;

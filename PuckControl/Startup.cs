@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using PuckControl.Data.CE;
-using PuckControl.Domain.Entities;
+using System.Threading;
 
 [assembly: CLSCompliant(true)]
 namespace PuckControl
 {
     internal static class Startup
     {
+        private static Thread SplashThread;
+
         [System.STAThreadAttribute()]
         public static void Main()
         {

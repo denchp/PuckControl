@@ -139,6 +139,7 @@
     <Compile Include="Controls\TabButton.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="Splasher.cs" />
     <Compile Include="Windows\Game.xaml.cs">
       <DependentUpon>Game.xaml</DependentUpon>
     </Compile>
@@ -151,6 +152,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Windows\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Splash.xaml.cs">
+      <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
     <Page Include="Windows\Debug.xaml">
       <SubType>Designer</SubType>
@@ -188,6 +192,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Splash.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,6 +297,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Caution_sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Assets\pcLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

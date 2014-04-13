@@ -1,8 +1,6 @@
 ﻿using PuckControl.Domain.Entities;
-using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace PuckControl.Controls
 {

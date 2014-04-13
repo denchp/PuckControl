@@ -1,19 +1,18 @@
-﻿using PuckControl.Data.CE;
-using PuckControl.Domain;
+﻿using PuckControl.Domain;
 using PuckControl.Domain.Entities;
 using PuckControl.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 
 [assembly: CLSCompliant(true)]
-namespace PuckControl.UserManager
+namespace PuckControl.Users
 {
-    public class LocalUserManager : IUserManager
+    public class UserManager : IUserManager
     {
         private List<UserType> _userTypes;
         private IDataService _dataService;
 
-        public LocalUserManager(IDataService dataService)
+        public UserManager(IDataService dataService)
         {
             _userTypes = new List<UserType>();
             _userTypes.Add(UserType.Local);

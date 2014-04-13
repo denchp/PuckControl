@@ -20,7 +20,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock FontSize="36" FontWeight="ExtraBold" Width="100" Text="{Binding Rank}"/>
-                                        <TextBlock FontSize="36" FontWeight="ExtraBold" Width="300" Text="{Binding UserName}"/>
+                                        <TextBlock FontSize="36" FontWeight="ExtraBold" Width="300" Text="{Binding User.Name}"/>
                                         <TextBlock FontSize="36" FontWeight="ExtraBold" Width="200" Text="{Binding FinalScore}" />
                                         <TextBlock FontSize="36" FontWeight="ExtraBold" Width="Auto" Text="{Binding DateString}"/>
                                     </StackPanel>

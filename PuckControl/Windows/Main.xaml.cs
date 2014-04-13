@@ -12,10 +12,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
 
     public partial class Main : Window, IDisposable
     {
@@ -28,19 +25,19 @@
         private HighScores _highScoresWindow;
         private Game _gameWindow;
         private Settings _settingsWindow;
-        private Sparkle _sparkle;
+        private Splash _splash;
 
         public Main()
         {
+            _splash = new Splash();
+            _splash.ShowInTaskbar = false;
+            _splash.Show();
             InitializeComponent();
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
             System.Drawing.Icon windowIcon;
             Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PuckControl;component/Assets/pcIcon.ico")).Stream;
             windowIcon = new System.Drawing.Icon(iconStream);
-
-            //_sparkle = new Sparkle("http://www.headsup.technology/download/betaupdates", windowIcon); 
-            //_sparkle.StartLoop(true);
 
             _engine = new GameEngine();
             _debugWindow = new DebugWindow(_engine);
@@ -104,9 +101,10 @@
             };
 
             this.Activated += Main_Activated;
+            _splash.Close();
         }
 
-        void Main_Activated(object sender, EventArgs e)
+        private void Main_Activated(object sender, EventArgs e)
         {
             try
             {
@@ -253,6 +251,7 @@
             {
                 _engine.Dispose();
                 _gameWindow.Dispose();
+                
                 // Indicate that the instance has been disposed.
                 _disposed = true;
             }

@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.BlobTracking", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Scoring", "PuckControl.Score\PuckControl.Scoring.csproj", "{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.UserManager", "PuckControl.UserManager\PuckControl.UserManager.csproj", "{F6345071-9375-449C-B7DA-BA5E6BD50568}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Users", "PuckControl.UserManager\PuckControl.Users.csproj", "{F6345071-9375-449C-B7DA-BA5E6BD50568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Data.Dat", "PuckControl.Data.File\PuckControl.Data.Dat.csproj", "{F68AC624-304D-44D3-8979-5EC887EF43F7}"
 EndProject

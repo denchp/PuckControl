@@ -1,11 +1,10 @@
-﻿using PuckControl.Domain.Entities;
-using PuckControl.Engine;
-using System.Collections.Generic;
-using System.Windows;
-using System.Linq;
-using System.Windows.Controls;
-using PuckControl.Controls;
+﻿using PuckControl.Controls;
+using PuckControl.Domain.Entities;
 using PuckControl.Domain.Interfaces;
+using PuckControl.Engine;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace PuckControl.Windows
 {

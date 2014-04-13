@@ -8,7 +8,6 @@ namespace PuckControl.Tracking
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.DirectShow;
-    using PuckControl.Data.CE;
     using PuckControl.Domain.Entities;
     using PuckControl.Domain.EventArg;
     using PuckControl.Domain.Interfaces;

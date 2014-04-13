@@ -1,5 +1,4 @@
-﻿using PuckControl.Data.CE;
-using PuckControl.Domain.Entities;
+﻿using PuckControl.Domain.Entities;
 using PuckControl.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,12 +7,12 @@ using System.Linq;
 [assembly: CLSCompliant(true)]
 namespace PuckControl.Scoring
 {
-    public class LocalScorekeeper : IScorekeeper
+    public class Scorekeeper : IScorekeeper
     {
         public string Name { get { return "Local"; } }
         private IDataService _dataService;
 
-        public LocalScorekeeper(IDataService dataService)
+        public Scorekeeper(IDataService dataService)
         {
             _dataService = dataService;
         }

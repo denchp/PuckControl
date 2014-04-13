@@ -1,5 +1,4 @@
 ﻿using PuckControl.Domain.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace PuckControl.Domain.Interfaces
