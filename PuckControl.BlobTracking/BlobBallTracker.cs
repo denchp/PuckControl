@@ -8,7 +8,7 @@ namespace PuckControl.Tracking
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.DirectShow;
-    using PuckControl.Data.Dat;
+    using PuckControl.Data.CE;
     using PuckControl.Domain.Entities;
     using PuckControl.Domain.EventArg;
     using PuckControl.Domain.Interfaces;
@@ -39,21 +39,23 @@ namespace PuckControl.Tracking
         private BallUpdateEventArgs _lastUpdate;
         private Point _blobCenter;
         private bool lastFrameProcessed = true;
-        private IRepository<Setting> _settingRepository;
+        private IDataService _dataService;
         private HashSet<Setting> _settings;
         private int _droppedUpdates;
 
         const Int32 OUTLIER_LENGTH = 50;
 
-        public BlobBallTracker()
+        public BlobBallTracker(IDataService dataService)
         {
             DrawBoxes = true;
             DrawVectors = true;
-            _settingRepository = new DatRepository<Setting>();
-            _settings = new HashSet<Setting>(_settingRepository.Find(x => x.Module == "Tracking"));
+            _dataService = dataService;
+
+            _settings = new HashSet<Setting>(_dataService.SettingRespository.Find(x => x.Module == "Tracking"));
 
             LoadCameraSettings();
             LoadFilterSettings();
+            SaveSettings();
         }
 
         public void StartTracking()
@@ -140,15 +142,15 @@ namespace PuckControl.Tracking
         {
             if (_settings.Count(x => x.Section == "Tracking Color") == 0)
             {
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Hue", SelectedOption = "345" });
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Hue", SelectedOption = "30" });
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Saturation", SelectedOption = ".3" });
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Saturation", SelectedOption = ".8" });
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Luminance", SelectedOption = ".3" });
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Luminance", SelectedOption = ".85" });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Hue", Options = new List<SettingOption>() { new SettingOption() { Value = "345", IsSelected = true } } });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Hue", Options = new List<SettingOption>() { new SettingOption() { Value = "30", IsSelected = true } } });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Saturation", Options = new List<SettingOption>() { new SettingOption() { Value = ".3", IsSelected = true } } });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Saturation", Options = new List<SettingOption>() { new SettingOption() { Value = ".8", IsSelected = true } } });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Luminance", Options = new List<SettingOption>() { new SettingOption() { Value = ".3", IsSelected = true } } });
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Luminance", Options = new List<SettingOption>() { new SettingOption() { Value = ".85", IsSelected = true } } });
 
-                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Object Size", SelectedOption = "12" });
-                _settingRepository.Save(_settings);
+                _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Object Size", Options = new List<SettingOption>() { new SettingOption() { Value = "12", IsSelected = true } } });
+                _dataService.SettingRespository.Save(_settings);
             }
 
 
@@ -156,12 +158,12 @@ namespace PuckControl.Tracking
             int minHue, maxHue;
             float minSat, maxSat, minLum, maxLum;
 
-            Int32.TryParse(_settings.First(s => s.Key == "Minimum Hue").SelectedOption, out minHue);
-            Int32.TryParse(_settings.First(s => s.Key == "Maximum Hue").SelectedOption, out maxHue);
-            float.TryParse(_settings.First(s => s.Key == "Minimum Saturation").SelectedOption, out minSat);
-            float.TryParse(_settings.First(s => s.Key == "Maximum Saturation").SelectedOption, out maxSat);
-            float.TryParse(_settings.First(s => s.Key == "Minimum Luminance").SelectedOption, out minLum);
-            float.TryParse(_settings.First(s => s.Key == "Maximum Luminance").SelectedOption, out maxLum);
+            Int32.TryParse(_settings.First(s => s.Key == "Minimum Hue").Options.First(x => x.IsSelected).Value, out minHue);
+            Int32.TryParse(_settings.First(s => s.Key == "Maximum Hue").Options.First(x => x.IsSelected).Value, out maxHue);
+            float.TryParse(_settings.First(s => s.Key == "Minimum Saturation").Options.First(x => x.IsSelected).Value, out minSat);
+            float.TryParse(_settings.First(s => s.Key == "Maximum Saturation").Options.First(x => x.IsSelected).Value, out maxSat);
+            float.TryParse(_settings.First(s => s.Key == "Minimum Luminance").Options.First(x => x.IsSelected).Value, out minLum);
+            float.TryParse(_settings.First(s => s.Key == "Maximum Luminance").Options.First(x => x.IsSelected).Value, out maxLum);
 
             _hslFilter.Hue = new AForge.IntRange(minHue, maxHue);
             _hslFilter.Saturation = new AForge.Range(minSat, maxSat);
@@ -170,7 +172,7 @@ namespace PuckControl.Tracking
             _blobFilter = new BlobsFiltering();
 
             int minimumSize;
-            Int32.TryParse(_settings.First(s => s.Key == "Minimum Object Size").SelectedOption, out minimumSize);
+            Int32.TryParse(_settings.First(s => s.Key == "Minimum Object Size").Options.First(x => x.IsSelected).Value, out minimumSize);
 
             _blobFilter.CoupledSizeFiltering = true;
             _blobFilter.MinWidth = minimumSize;
@@ -195,28 +197,26 @@ namespace PuckControl.Tracking
             if ((cameraSetting = _settings.FirstOrDefault(x => x.Key == "Camera")) == null)
             {
                 // no camera settings found, load the camera names and set the default to be the last in the list.
-                var cameraSettings = new Setting();
-                cameraSettings.Key = "Camera";
-                cameraSettings.Section = "General";
-                cameraSettings.Module = MODULE_NAME;
+                cameraSetting = new Setting();
+                cameraSetting.Key = "Camera";
+                cameraSetting.Section = "General";
+                cameraSetting.Module = MODULE_NAME;
 
                 foreach (FilterInfo cam in videoDevices)
-                    cameraSettings.Options.Add(cam.Name, cam.MonikerString);
+                    cameraSetting.Options.Add(new SettingOption() { Name = cam.Name, Value = cam.MonikerString });
 
-                cameraSettings.SelectedOption = videoDevices[videoDevices.Count - 1].Name;
-                _settings.Add(cameraSettings);
+                cameraSetting.Options.First(x => x.Name == videoDevices[videoDevices.Count - 1].Name).IsSelected = true;
+                _settings.Add(cameraSetting);
             }
 
-            camera = cameraSetting.Options[cameraSetting.SelectedOption];
+            camera = cameraSetting.Options.First(x => x.IsSelected).Value;
 
             _capture = new VideoCaptureDevice(camera);
 
             Setting imageSetting = null;
             VideoCapabilities capabilities = null;
 
-            imageSetting = _settings.FirstOrDefault(x => x.Key == "Tracking Image Size");
-
-            if (imageSetting == null)
+            if ((imageSetting = _settings.FirstOrDefault(x => x.Key == "Tracking Image Size")) == null)
             {
                 imageSetting = new Setting();
                 imageSetting.Key = "Tracking Image Size";
@@ -226,40 +226,45 @@ namespace PuckControl.Tracking
 
                 foreach (var cap in _capture.VideoCapabilities)
                 {
-                    imageSetting.Options.Add(cap.FrameSize.ToString(), cap.GetHashCode().ToString());
+                    imageSetting.Options.Add(new SettingOption() { Name = cap.FrameSize.ToString(), Value = cap.GetHashCode().ToString() });
 
                     if (cap.FrameSize.Height <= 480 && cap.FrameSize.Width <= 640 && capabilities == null)
                     {
-                        imageSetting.SelectedOption = imageSetting.Options.First(x => x.Key == cap.FrameSize.ToString()).Key;
+                        imageSetting.Options.FirstOrDefault(x => x.Name == cap.FrameSize.ToString()).IsSelected = true;
                     }
                 }
             }
 
-            if (!String.IsNullOrEmpty(imageSetting.SelectedOption))
-                capabilities = _capture.VideoCapabilities.FirstOrDefault(x => x.GetHashCode().ToString() == imageSetting.Options[imageSetting.SelectedOption]);
+            if (imageSetting.Options.Any(x => x.IsSelected))
+                capabilities = _capture.VideoCapabilities.FirstOrDefault(x => x.GetHashCode().ToString() == imageSetting.Options.First(o => o.IsSelected).Value);
 
             if (capabilities == null)
             {
-                // if the capabilities are null here, then the selected image options aren't valid for the camera, so we need to clear  the selected option.
-                imageSetting.SelectedOption = String.Empty;
-            }
+                // if the capabilities are null here, then the selected image options aren't valid for the camera, so we need to clear the selected option.
+                imageSetting.Options.ForEach(x => x.IsSelected = false);
 
-            imageSetting.Options.Clear();
+                _dataService.OptionRepository.Delete(imageSetting.Options);
+                imageSetting.Options.Clear();
 
-            foreach (var cap in _capture.VideoCapabilities)
-            {
-                imageSetting.Options.Add(cap.FrameSize.ToString(), cap.GetHashCode().ToString());
-
-                if (cap.FrameSize.Height <= 480 && cap.FrameSize.Width <= 640 && capabilities == null)
+                foreach (var cap in _capture.VideoCapabilities)
                 {
-                    capabilities = cap;
-                    if (String.IsNullOrEmpty(imageSetting.SelectedOption))
-                        imageSetting.SelectedOption = imageSetting.Options.First(x => x.Key == cap.FrameSize.ToString()).Key;
+                    imageSetting.Options.Add(new SettingOption() { Name = cap.FrameSize.ToString(), Value = cap.GetHashCode().ToString() });
+
+                    if (cap.FrameSize.Height <= 480 && cap.FrameSize.Width <= 640 && capabilities == null)
+                    {
+                        capabilities = cap;
+                        if (imageSetting.Options.Any(x => x.IsSelected))
+                            imageSetting.Options.First(x => x.Value == cap.FrameSize.ToString()).IsSelected = true;
+                    }
                 }
             }
 
-            _settingRepository.Save(_settings);
             _capture.VideoResolution = capabilities;
+        }
+
+        private void SaveSettings()
+        {
+            _dataService.SettingRespository.Save(_settings);
         }
 
         private void _capture_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -344,7 +349,7 @@ namespace PuckControl.Tracking
 
             lastFrameProcessed = true;
         }
-        
+
         #region IDispose Implementation
         public void Dispose()
         {
@@ -358,7 +363,7 @@ namespace PuckControl.Tracking
             {
                 _trackingImage.Dispose();
                 _colorImage.Dispose();
-                
+
                 // Indicate that the instance has been disposed.
                 _disposed = true;
             }
@@ -376,7 +381,7 @@ namespace PuckControl.Tracking
 
         public void ReloadSettings()
         {
-            var moduleSettings = _settingRepository.All.Where(x => x.Module == MODULE_NAME).ToList(); ;
+            var moduleSettings = _dataService.SettingRespository.All.Where(x => x.Module == MODULE_NAME).ToList(); ;
 
             _settings = new HashSet<Setting>(moduleSettings);
 

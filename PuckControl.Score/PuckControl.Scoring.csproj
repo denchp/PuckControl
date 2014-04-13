@@ -69,9 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PuckControl.Data.File\PuckControl.Data.Dat.csproj">
-      <Project>{f68ac624-304d-44d3-8979-5ec887ef43f7}</Project>
-      <Name>PuckControl.Data.Dat</Name>
+    <ProjectReference Include="..\PuckControl.Data.CE\PuckControl.Data.CE.csproj">
+      <Project>{b5a6ecc0-776f-4d7d-8c26-deb62b7131f1}</Project>
+      <Name>PuckControl.Data.CE</Name>
     </ProjectReference>
     <ProjectReference Include="..\PuckControl.Domain\PuckControl.Domain.csproj">
       <Project>{1e4fae78-59be-447a-b9c8-70bb922e3523}</Project>
@@ -79,6 +79,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="keyFile.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

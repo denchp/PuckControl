@@ -23,6 +23,7 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "PuckControl.Install", "Puck
 		{8DF9A590-8182-4957-BD85-9D3EFF5D3AC7} = {8DF9A590-8182-4957-BD85-9D3EFF5D3AC7}
 		{5824EF94-E2B0-4F1A-A770-E0C8038F68CE} = {5824EF94-E2B0-4F1A-A770-E0C8038F68CE}
 		{044A3897-1327-4E37-9F69-0E67EBB23A3B} = {044A3897-1327-4E37-9F69-0E67EBB23A3B}
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1} = {B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Engine", "PuckControl.Engine\PuckControl.Engine.csproj", "{23E03D21-1D7B-4FF7-938C-54888D459E81}"
@@ -43,6 +44,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.UserManager", "PuckControl.UserManager\PuckControl.UserManager.csproj", "{F6345071-9375-449C-B7DA-BA5E6BD50568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Data.Dat", "PuckControl.Data.File\PuckControl.Data.Dat.csproj", "{F68AC624-304D-44D3-8979-5EC887EF43F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuckControl.Data.CE", "PuckControl.Data.CE\PuckControl.Data.CE.csproj", "{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +154,16 @@ Global
 		{F68AC624-304D-44D3-8979-5EC887EF43F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F68AC624-304D-44D3-8979-5EC887EF43F7}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{F68AC624-304D-44D3-8979-5EC887EF43F7}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

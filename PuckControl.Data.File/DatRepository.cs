@@ -104,5 +104,17 @@ namespace PuckControl.Data.Dat
 
             return entities;
         }
+
+
+        public IEnumerable<T> Find(Func<T, bool> predicate, System.Linq.Expressions.Expression<Func<T, object>> include = null)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Delete(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

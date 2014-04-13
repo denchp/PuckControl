@@ -65,11 +65,11 @@
                         <Label Content="{Binding Path=Setting.Key}" MinWidth="150"/>
                         <ComboBox ItemsSource="{Binding Path=Setting.Options}" SelectedValuePath="Key" Name="cmbOptions">
                             <ComboBox.SelectedValue>
-                                <Binding Path="Setting.SelectedOption" Mode="TwoWay"/>
+                                <Binding Path="Setting.Options.IsSelected" Mode="TwoWay"/>
                             </ComboBox.SelectedValue>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Key}"/>
+                                    <TextBlock Text="{Binding Path=Name}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -85,7 +85,7 @@
                 <ControlTemplate TargetType="{x:Type pc:TextSettingControl}">
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                         <Label Content="{Binding Path=Setting.Key}" MinWidth="150"/>
-                        <TextBox Text="{Binding Path=Setting.SelectedOption}"/>
+                        <TextBox Text="{Binding Path=Setting.Options[0].Value}"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

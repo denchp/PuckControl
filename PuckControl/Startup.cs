@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using PuckControl.Data.CE;
+using PuckControl.Domain.Entities;
 
 [assembly: CLSCompliant(true)]
 namespace PuckControl

@@ -78,6 +78,10 @@
       <Project>{80189271-047e-4fe3-8410-647991151110}</Project>
       <Name>PuckControl.BlobTracking</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PuckControl.Data.CE\PuckControl.Data.CE.csproj">
+      <Project>{b5a6ecc0-776f-4d7d-8c26-deb62b7131f1}</Project>
+      <Name>PuckControl.Data.CE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PuckControl.Data.File\PuckControl.Data.Dat.csproj">
       <Project>{f68ac624-304d-44d3-8979-5ec887ef43f7}</Project>
       <Name>PuckControl.Data.Dat</Name>
@@ -96,6 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="keyFile.pfx" />
   </ItemGroup>
   <ItemGroup>

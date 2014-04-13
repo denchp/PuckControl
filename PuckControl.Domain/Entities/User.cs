@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 
 namespace PuckControl.Domain.Entities
@@ -8,7 +9,10 @@ namespace PuckControl.Domain.Entities
     {
         public string Name { get; set; }
         public int BirthYear { get; set; }
-        public Stream Avatar { get; set; }
+
+        public byte[] Avatar { get; set; }
+
+        [NotMapped]
         public UserType UserType { get; set; }
     }
 }

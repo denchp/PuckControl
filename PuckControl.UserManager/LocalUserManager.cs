@@ -1,4 +1,4 @@
-﻿using PuckControl.Data.Dat;
+﻿using PuckControl.Data.CE;
 using PuckControl.Domain;
 using PuckControl.Domain.Entities;
 using PuckControl.Domain.Interfaces;
@@ -11,30 +11,30 @@ namespace PuckControl.UserManager
     public class LocalUserManager : IUserManager
     {
         private List<UserType> _userTypes;
-        private IRepository<User> _repository;
+        private IDataService _dataService;
 
-        public LocalUserManager()
+        public LocalUserManager(IDataService dataService)
         {
             _userTypes = new List<UserType>();
             _userTypes.Add(UserType.Local);
-            _repository = new DatRepository<User>();
+            _dataService = dataService;
         }
 
         public IEnumerable<User> Users
         {
             get
             {
-                var users = _repository.All;
+                var users = _dataService.UserRepository.All;
                 return users;
             }
         }
 
         public void SaveUser(User user)
         {
-            var users = (HashSet<User>)_repository.All;
+            var users = new HashSet<User>(_dataService.UserRepository.All);
             users.Add(user);
 
-            _repository.Save(users);
+            _dataService.UserRepository.Save(users);
         }
 
         public IEnumerable<UserType> UserTypes

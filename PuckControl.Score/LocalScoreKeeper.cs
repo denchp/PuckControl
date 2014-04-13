@@ -1,4 +1,4 @@
-﻿using PuckControl.Data.Dat;
+﻿using PuckControl.Data.CE;
 using PuckControl.Domain.Entities;
 using PuckControl.Domain.Interfaces;
 using System;
@@ -11,19 +11,17 @@ namespace PuckControl.Scoring
     public class LocalScorekeeper : IScorekeeper
     {
         public string Name { get { return "Local"; } }
-        private IRepository<Score> _repository;
-        private IRepository<User> _userRepository;
+        private IDataService _dataService;
 
-        public LocalScorekeeper()
+        public LocalScorekeeper(IDataService dataService)
         {
-            _repository = new DatRepository<Score>();
-            _userRepository = new DatRepository<User>();
+            _dataService = dataService;
         }
 
         public IEnumerable<Score> GetScores(string game, int count, int offset, DateTime? since = null)
         {
             //var scores = new IEnumerable<Score>();
-            var scores = _repository.All;
+            var scores = _dataService.ScoreRepository.All;
             scores = scores.OrderByDescending(x => x.FinalScore);
 
             int rank = 0;
@@ -45,7 +43,7 @@ namespace PuckControl.Scoring
 
             foreach (var score in scores)
             {
-                score.UserName = _userRepository.Find(x => x.Id == score.UserId).First().Name;
+                score.User = _dataService.UserRepository.Find(x => x.Id == score.User.Id).First(x => x.Id == score.User.Id);
             }
 
             return scores;
@@ -54,7 +52,7 @@ namespace PuckControl.Scoring
         public void SaveScore(Score newScore)
         {
             var scoreList = new List<Score>() { newScore };
-            _repository.Save(scoreList);
+            _dataService.ScoreRepository.Save(scoreList);
         }
     }
 }

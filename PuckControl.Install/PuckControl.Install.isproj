@@ -38,6 +38,10 @@
 			<Name>PuckControl.BlobTracking</Name>
 			<Project>{80189271-047E-4FE3-8410-647991151110}</Project>
 		</ProjectReference>
+		<ProjectReference Include="..\PuckControl.Data.CE\PuckControl.Data.CE.csproj">
+			<Name>PuckControl.Data.CE</Name>
+			<Project>{B5A6ECC0-776F-4D7D-8C26-DEB62B7131F1}</Project>
+		</ProjectReference>
 		<ProjectReference Include="..\PuckControl.Domain\PuckControl.Domain.csproj">
 			<Name>PuckControl.Domain</Name>
 			<Project>{1E4FAE78-59BE-447A-B9C8-70BB922E3523}</Project>

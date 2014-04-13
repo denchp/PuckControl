@@ -1,4 +1,4 @@
-﻿using PuckControl.Data.Dat;
+﻿using PuckControl.Data.CE;
 using PuckControl.Domain;
 using PuckControl.Domain.Entities;
 using PuckControl.Domain.EventArg;
@@ -40,7 +40,8 @@ namespace PuckControl.Engine
         public ObservableCollection<User> Users { get; private set; }
         public User CurrentUser { get; set; }
         public ObservableCollection<Setting> Settings { get; private set; }
-        public IRepository<Setting> SettingsRepository { get; private set; }
+        public IRepository<Setting> SettingsRepository { get { return _dataService.SettingRespository; } }
+        private IDataService _dataService;
         private IGame _game;
         private IBallTracker _tracker;
         private Thread _trackingThread;
@@ -53,15 +54,15 @@ namespace PuckControl.Engine
         {
             Settings = new ObservableCollection<Setting>();
             Users = new ObservableCollection<User>();
-
+             string folderpath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+             _dataService = new CEDataService("DataSource=|DataDirectory|" + folderpath + @"\PuckControl\PuckControl.sdf");
             _objects = new HashSet<GameObject>();
             _scorekeepers = new HashSet<IScorekeeper>();
             _userManagers = new HashSet<IUserManager>();
             _settingModules = new HashSet<ISettingsModule>();
-            SettingsRepository = new DatRepository<Setting>();
 
-            _scorekeepers.Add(new LocalScorekeeper());                
-            _userManagers.Add(new LocalUserManager());
+            _scorekeepers.Add(new LocalScorekeeper(_dataService));
+            _userManagers.Add(new LocalUserManager(_dataService));
                 
             MaxSpeed = 4;
             ControlDeadZone = .5;
@@ -75,7 +76,7 @@ namespace PuckControl.Engine
         {
             try
             {
-                _tracker = new BlobBallTracker();
+                _tracker = new BlobBallTracker(_dataService);
                 _tracker.LostBall += _tracker_LostBall;
                 RegisterSettings(_tracker);
                 _tracker.NewCameraImage += _tracker_NewCameraImages;
@@ -299,7 +300,8 @@ namespace PuckControl.Engine
 
                     if (_game.Score.HasValue)
                     {
-                        LastGameScore = new Score() { Created = DateTime.Now, FinalScore = _game.Score.Value, Game = _game.Name, UserId = CurrentUser.Id };
+
+                        LastGameScore = new Score() { Created = DateTime.Now, FinalScore = _game.Score.Value, Game = _game.Name, User = CurrentUser };
 
                         foreach (var scoreKeeper in _scorekeepers)
                             scoreKeeper.SaveScore(LastGameScore);

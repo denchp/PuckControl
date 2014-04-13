@@ -74,7 +74,7 @@ namespace PuckControl.Windows
 
             foreach (var setting in settings)
             {
-                if (setting.Options.Count > 0)
+                if (setting.Options.Count > 1)
                 {
                     ComboSettingControl newControl = new ComboSettingControl();
                     newControl.Setting = setting;

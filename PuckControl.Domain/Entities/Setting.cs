@@ -9,13 +9,12 @@ namespace PuckControl.Domain.Entities
         public string Module { get; set; }
         public string Section { get; set; }
         public string Key { get; set; }
-        public string SelectedOption { get; set; }
-        public Dictionary<string, string> Options { get; private set; }
+        public virtual List<SettingOption> Options { get; set; }
         public string Note { get; set; }
 
         public Setting()
         {
-            Options = new Dictionary<string, string>();
+            Options = new List<SettingOption>();
         }
         
     }

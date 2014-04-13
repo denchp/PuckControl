@@ -343,7 +343,10 @@
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{AF0FD92B-68BE-4136-865E-86184877BF09}</td><td>HEADSUP</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{B51783D3-3632-4B2A-8C8B-77404F896399}</td><td>GlobalAssemblyCache</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{2722DCF1-F5FE-4E79-B62B-D113D5E0E352}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{2B989723-964F-4576-B608-DEA43322260E}</td><td>CommonAppDataFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.BlobTracking.Primary_output</td><td>{4A58F2BF-5783-44FA-99B8-8138C351B45A}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.blobtracking.pri</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>PuckControl.Data.CE.Content_Files</td><td>{D2B54A81-6594-4BDC-9351-E326AA206182}</td><td>AppDataFolder</td><td>2</td><td/><td>puckcontrol.data.ce.content_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>PuckControl.Data.CE.Primary_output</td><td>{8A2766BB-DAB9-4299-BFDE-697141E0D8E8}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.data.ce.primary_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.Domain.Primary_output</td><td>{8CC53E37-E43C-4F8D-B302-D5E2489A1481}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.domain.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.Engine.Primary_output</td><td>{02ABBB1B-203E-4861-8844-29702FBC0675}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.engine.primary_o</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>PuckControl.Games.Content_Files</td><td>{9C46CD83-041B-41F8-BE00-3896363EA5AE}</td><td>INSTALLDIR</td><td>2</td><td/><td>puckcontrol.games.content_fi</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1059,6 +1062,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>CommonAppDataFolder</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>GlobalAssemblyCache</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>HEADSUP</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT2</td></row>
@@ -1879,7 +1883,10 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.BlobTracking.Primary_output</td></row>
+		<row><td>AlwaysInstall</td><td>PuckControl.Data.CE.Content_Files</td></row>
+		<row><td>AlwaysInstall</td><td>PuckControl.Data.CE.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.Domain.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.Engine.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>PuckControl.Games.Content_Files</td></row>
@@ -1901,6 +1908,8 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>puckcontrol.blobtracking.pri</td><td>PuckControl.BlobTracking.Primary_output</td><td>PuckControl.BlobTracking.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.BlobTracking&gt;|Built</td><td>3</td><td/></row>
+		<row><td>puckcontrol.data.ce.content_</td><td>PuckControl.Data.CE.Content_Files</td><td>PuckControl.Data.CE.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.Data.CE&gt;|ContentFiles</td><td>3</td><td/></row>
+		<row><td>puckcontrol.data.ce.primary_</td><td>PuckControl.Data.CE.Primary_output</td><td>PuckControl.Data.CE.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.Data.CE&gt;|Built</td><td>3</td><td/></row>
 		<row><td>puckcontrol.domain.primary_o</td><td>PuckControl.Domain.Primary_output</td><td>PuckControl.Domain.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.Domain&gt;|Built</td><td>3</td><td/></row>
 		<row><td>puckcontrol.engine.primary_o</td><td>PuckControl.Engine.Primary_output</td><td>PuckControl.Engine.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.Engine&gt;|Built</td><td>3</td><td/></row>
 		<row><td>puckcontrol.games.content_fi</td><td>PuckControl.Games.Content_Files</td><td>PuckControl.Games.Content Files</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PuckControl.Games&gt;|ContentFiles</td><td>3</td><td/></row>
@@ -2053,7 +2062,10 @@
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_FCA12357_84AA_4CE9_B3ED_4C22272136D0_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_DEE2D556_8714_4ECE_8887_918402C50B38_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_39982E68_4756_4E0D_804F_A00037271A41_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_1EB9AA1E_9ADC_4E17_9F7E_1C7CE8208CEF_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.BlobTracking.Primary_output</td><td/><td/><td>_D73AC2D4_BDF3_4CF1_B1B4_A68C438892BC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>PuckControl.Data.CE.Content_Files</td><td/><td/><td>_67CCB438_B0E7_48A3_B201_EBFE9D57D4F7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>PuckControl.Data.CE.Primary_output</td><td/><td/><td>_D583E545_67EA_475C_8256_6B7ED2C0BA2D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.Domain.Primary_output</td><td/><td/><td>_8971435B_452A_406C_8DD7_5EEE2CD859A3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.Engine.Primary_output</td><td/><td/><td>_026451C5_4F40_40C2_ABD8_21CF3E51D50B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>PuckControl.Games.Content_Files</td><td/><td/><td>_1977B635_F99E_44D7_A965_239B85916302_FILTER</td><td/><td/><td/><td/></row>
@@ -2377,6 +2389,7 @@
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
 		<row><td>PuckControl</td><td>PuckControl\PuckControl.csproj</td><td/><td>2</td></row>
 		<row><td>PuckControl.BlobTracking</td><td>PuckControl.BlobTracking\PuckControl.BlobTracking.csproj</td><td/><td>2</td></row>
+		<row><td>PuckControl.Data.CE</td><td>PuckControl.Data.CE\PuckControl.Data.CE.csproj</td><td/><td>2</td></row>
 		<row><td>PuckControl.Domain</td><td>PuckControl.Domain\PuckControl.Domain.csproj</td><td/><td>2</td></row>
 		<row><td>PuckControl.Engine</td><td>PuckControl.Engine\PuckControl.Engine.csproj</td><td/><td>2</td></row>
 		<row><td>PuckControl.Games</td><td>PuckControl.Games\PuckControl.Games.csproj</td><td/><td>2</td></row>
