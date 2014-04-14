@@ -4,6 +4,7 @@ Version .5 (Beta)
 - Added Quick Hands game
 - Migrated from .dat file data store to repository/database architecture
 - Cleaner loading of Camera options
+- Added splash screen
 
 Version .4 (Beta)
 - Added flashing icon when ball eaves playing area
