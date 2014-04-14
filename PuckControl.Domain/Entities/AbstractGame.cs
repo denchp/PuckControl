@@ -17,8 +17,7 @@ namespace PuckControl.Domain.Entities
         public event EventHandler<ObjectEventArgs> NewObjectEvent;
         public event EventHandler<ObjectEventArgs> RemoveObjectEvent;
         public event EventHandler<ObjectEventArgs> ObjectCollisionEvent;
-        public event EventHandler<ObjectEventArgs> ObjectMotionEvent;
-
+        
         public event EventHandler<HUDItemEventArgs> NewHUDItemEvent;
         public event EventHandler<HUDItemEventArgs> RemoveHUDItemEvent;
         public event EventHandler<HUDItemEventArgs> UpdateHUDItemEvent;
@@ -28,6 +27,15 @@ namespace PuckControl.Domain.Entities
 
         protected ObservableCollection<GameObject> GameObjects { get; private set; }
         protected ObservableCollection<HUDItem> HUDItems { get; private set; }
+        
+        protected AbstractGame()
+        {
+            GameObjects = new ObservableCollection<GameObject>();
+            HUDItems = new ObservableCollection<HUDItem>();
+
+            GameObjects.CollectionChanged += _gameObjects_CollectionChanged;
+            HUDItems.CollectionChanged += _hudItems_CollectionChanged;
+        }
 
         protected void AddRink()
         {
@@ -67,25 +75,19 @@ namespace PuckControl.Domain.Entities
             _puck.MotionSmoothingSteps = 2;
             _puck.ControlledObject = true;
             _puck.Model.ModelFile = "puck.3ds";
+            _puck.ControlledObject = true;
+            _puck.Active = false;
+            _puck.ObjectType = "Puck";
             GameObjects.Add(_puck);
         }
 
         public abstract bool Init();
         public abstract void StartGame();
-        public abstract void PuckCollision(Domain.Entities.GameObject obj);
+        public abstract void Collision(GameObject objectOne, GameObject objectTwo);
         public abstract int? Score { get; }
         public ControlType ControlType { get; set; }
         public Color TileColor { get; protected set; }
         public string Name { get; protected set; }
-
-        protected AbstractGame()
-        {
-            GameObjects = new ObservableCollection<GameObject>();
-            HUDItems = new ObservableCollection<HUDItem>();
-
-            GameObjects.CollectionChanged += _gameObjects_CollectionChanged;
-            HUDItems.CollectionChanged += _hudItems_CollectionChanged;
-        }
 
         void _hudItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

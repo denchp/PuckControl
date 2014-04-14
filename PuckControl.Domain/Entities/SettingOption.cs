@@ -5,7 +5,6 @@ namespace PuckControl.Domain.Entities
     {
         public string Name { get; set; }
         public string Value { get; set; }
-        public int Setting_Id { get; set; }
         public bool IsSelected { get; set; }
     }
 }

@@ -108,12 +108,12 @@ namespace PuckControl.Games
             }
         }
 
-        public override void PuckCollision(GameObject obj)
+        public override void Collision(GameObject obj, GameObject obj2)
         {
-            if (obj == null || CurrentStage != GameStage.Playing || !obj.Active)
+            if (obj2 == null || CurrentStage != GameStage.Playing || !obj2.Active)
                 return;
 
-            obj.Active = false;
+            obj2.Active = false;
 
             switch (obj.ObjectType)
             {
@@ -133,7 +133,7 @@ namespace PuckControl.Games
                     break;
             }
 
-            GameObjects.Remove(obj);
+            GameObjects.Remove(obj2);
         }
 
         public override void StartGame()

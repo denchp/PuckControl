@@ -40,7 +40,7 @@ namespace PuckControl.Engine
         public ObservableCollection<User> Users { get; private set; }
         public User CurrentUser { get; set; }
         public ObservableCollection<Setting> Settings { get; private set; }
-        public IRepository<Setting> SettingsRepository { get { return _dataService.SettingRespository; } }
+        public IRepository<Setting> SettingsRepository { get { return _dataService.SettingRepository; } }
         private IDataService _dataService;
         private IGame _game;
         private IBallTracker _tracker;
@@ -118,9 +118,9 @@ namespace PuckControl.Engine
             _game.Init();
         }
 
-        public void PuckCollision(GameObject obj)
+        public void Collision(GameObject objectOne, GameObject objectTwo)
         {
-            _game.PuckCollision(obj);
+            _game.Collision(objectOne, objectTwo);
         }
 
         public void StartTracking()
@@ -154,7 +154,7 @@ namespace PuckControl.Engine
 
         public void EndGame()
         {
-            if (_game != null)
+            if (_game != null && _game.CurrentStage != GameStage.GameOver)
                 _game.EndGame();
         }
 
@@ -380,9 +380,18 @@ namespace PuckControl.Engine
         private void _game_NewObjectEvent(object sender, ObjectEventArgs e)
         {
             _objects.Add(e.Obj);
+            e.Obj.ObjectMotion += Obj_ObjectMotion;
 
             if (NewObject != null)
                 NewObject(this, e);
+        }
+
+        void Obj_ObjectMotion(object sender, EventArgs e)
+        {
+            if (ObjectMotion != null)
+            {
+                ObjectMotion(this, new ObjectEventArgs() { Obj = (GameObject)sender });
+            }
         }
         
         public void ReloadSettings()

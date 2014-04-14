@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="ConesAndTargets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RaiseTheBar.cs" />
+    <Compile Include="QuickHands.cs" />
     <Compile Include="SpeedChallenge.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="GameAssets\GreenBar.3ds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameAssets\RedBar.3ds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="keyFile.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

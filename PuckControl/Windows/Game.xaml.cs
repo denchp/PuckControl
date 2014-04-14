@@ -240,11 +240,19 @@ namespace PuckControl.Windows
             {
                 Transform3DGroup TransformGroup = new Transform3DGroup();
                 Vector3D offsetVector = new Vector3D(e.Obj.Position.X * -1, e.Obj.Position.Y, e.Obj.Position.Z);
+                Vector3D rotationVector = e.Obj.Rotation;
+
                 TranslateTransform3D TranslateTransform = new TranslateTransform3D(offsetVector * ViewportScalingFactor);
-
+                var RotationTransformX = new AxisAngleRotation3D(new Vector3D(1, 0, 0), e.Obj.Rotation.X);
+                var RotationTransformY = new AxisAngleRotation3D(new Vector3D(0, 1, 0), e.Obj.Rotation.Y);
+                var RotationTransformZ = new AxisAngleRotation3D(new Vector3D(0, 0, 1), e.Obj.Rotation.Z);
                 TransformGroup.Children.Add(TranslateTransform);
-                e.Obj.Bounds = TranslateTransform.TransformBounds(_gameObjects[e.Obj].Content.Bounds);
+                
+                TransformGroup.Children.Add(new RotateTransform3D(RotationTransformX));
+                TransformGroup.Children.Add(new RotateTransform3D(RotationTransformY));
+                TransformGroup.Children.Add(new RotateTransform3D(RotationTransformZ));
 
+                e.Obj.Bounds = TransformGroup.TransformBounds(_gameObjects[e.Obj].Content.Bounds);
                 int objIndex = this.hlxViewport.Children.IndexOf(_gameObjects[e.Obj]);
 
                 this.hlxViewport.Children[objIndex].Transform = TransformGroup;
@@ -255,15 +263,7 @@ namespace PuckControl.Windows
                     {
                         if (gameObject.Bounds.IntersectsWith(e.Obj.Bounds))
                         {
-                            _engine.PuckCollision(gameObject);
-#if DEBUG
-                            using (StreamWriter w = File.AppendText("log.txt"))
-                            {
-                                Startup.Log("Collision:", w);
-                                Startup.Log("Puck Location: " + offsetVector.ToString(), w);
-                                Startup.Log("Collided with: " + gameObject.ObjectType + " at " + gameObject.Position.ToString(), w);
-                            }
-#endif
+                            _engine.Collision(e.Obj, gameObject);
                         }
                     }
                 }
@@ -340,6 +340,7 @@ namespace PuckControl.Windows
         {
             Transform3DGroup TransformGroup = new Transform3DGroup();
             TranslateTransform3D TranslateTransform = new TranslateTransform3D(newObject.Position * ViewportScalingFactor);
+            
             ModelVisual3D newModel = null;
             Model3DGroup newGroup = new Model3DGroup();
             string assemblyLocation = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -390,6 +391,44 @@ namespace PuckControl.Windows
 
                         ((GeometryModel3D)newGroup.Children[material.MeshIndex]).Material = materialGroup;
                     }
+
+                    ModelMaterial stateMaterial = null;
+                    if (newObject.Active)
+                        stateMaterial = newObject.Model.ActiveMaterial;
+                    else
+                        stateMaterial = newObject.Model.InactiveMaterial;
+
+                    if (stateMaterial != null)
+                    {
+                        MaterialGroup stateMaterialGroup = new MaterialGroup();
+
+                        Brush stateMaterialBrush = new SolidColorBrush(stateMaterial.DiffuseColor);
+                        stateMaterialBrush.Opacity = stateMaterial.Opacity;
+                        stateMaterialGroup.Children.Add(MaterialHelper.CreateMaterial(stateMaterialBrush, stateMaterial.SpecularPower));
+
+                        if (!String.IsNullOrWhiteSpace(stateMaterial.TextureFile))
+                        {
+                            if (File.Exists(assemblyLocation + @"\GameAssets\" + stateMaterial.TextureFile))
+                            {
+                                var texture = MaterialHelper.CreateImageMaterial(new BitmapImage(new Uri(assemblyLocation + @"\GameAssets\" + stateMaterial.TextureFile,
+                                    UriKind.Relative)), stateMaterial.Opacity);
+                                stateMaterialGroup.Children.Add(texture);
+                            }
+                        }
+
+                        var stateSpecular = new SpecularMaterial();
+                        stateSpecular.SpecularPower = stateMaterial.SpecularPower;
+                        stateSpecular.Color = stateMaterial.SpecularColor;
+
+                        var stateEmmissive = new EmissiveMaterial();
+                        stateEmmissive.Color = stateMaterial.EmissiveColor;
+
+                        stateMaterialGroup.Children.Add(stateSpecular);
+                        stateMaterialGroup.Children.Add(stateEmmissive);
+
+                        ((GeometryModel3D)newGroup.Children[stateMaterial.MeshIndex]).Material = stateMaterialGroup;
+                    }
+
                     break;
             }
 
@@ -407,9 +446,17 @@ namespace PuckControl.Windows
             double CenterZ = newGroup.Bounds.SizeZ / 2;
             ScaleTransform3D ScaleTransform = new ScaleTransform3D(newObject.Scale.X, newObject.Scale.Y, newObject.Scale.Z, CenterX, CenterY, CenterZ);
 
+            Rotation3D XRotation = new AxisAngleRotation3D(new Vector3D(1, 0, 0), newObject.Rotation.X);
+            Rotation3D YRotation = new AxisAngleRotation3D(new Vector3D(0, 1, 0), newObject.Rotation.Y);
+            Rotation3D ZRotation = new AxisAngleRotation3D(new Vector3D(0, 0, 1), newObject.Rotation.Z);            
+            
+            TransformGroup.Children.Add(new RotateTransform3D(XRotation, CenterX, CenterY, CenterZ));
+            TransformGroup.Children.Add(new RotateTransform3D(YRotation, CenterX, CenterY, CenterZ));
+            TransformGroup.Children.Add(new RotateTransform3D(ZRotation, CenterX, CenterY, CenterZ));
+
             TransformGroup.Children.Add(TranslateTransform);
             TransformGroup.Children.Add(ScaleTransform);
-
+            
             newGroup.Transform = TransformGroup;
 
             if (newObject.ApplyPhysics)
@@ -418,8 +465,57 @@ namespace PuckControl.Windows
                 TranslateTransform.OffsetZ -= (newGroup.Bounds.Z - rinkBounds.Z);
             }
             newObject.Bounds = newGroup.Bounds;
-
+            newObject.StatusChanged += newObject_StatusChanged;
             return newGroup;
+        }
+
+        private void newObject_StatusChanged(object sender, EventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+           {
+               var obj = sender as GameObject;
+               string assemblyLocation = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+               ModelMaterial stateMaterial = null;
+
+
+               if (obj.Active)
+                   stateMaterial = obj.Model.ActiveMaterial;
+               else
+                   stateMaterial = obj.Model.InactiveMaterial;
+
+               if (stateMaterial != null)
+               {
+                   MaterialGroup stateMaterialGroup = new MaterialGroup();
+
+                   Brush stateMaterialBrush = new SolidColorBrush(stateMaterial.DiffuseColor);
+                   stateMaterialBrush.Opacity = stateMaterial.Opacity;
+                   stateMaterialGroup.Children.Add(MaterialHelper.CreateMaterial(stateMaterialBrush, stateMaterial.SpecularPower));
+
+                   if (!String.IsNullOrWhiteSpace(stateMaterial.TextureFile))
+                   {
+                       if (File.Exists(assemblyLocation + @"\GameAssets\" + stateMaterial.TextureFile))
+                       {
+                           var texture = MaterialHelper.CreateImageMaterial(new BitmapImage(new Uri(assemblyLocation + @"\GameAssets\" + stateMaterial.TextureFile,
+                               UriKind.Relative)), stateMaterial.Opacity);
+                           stateMaterialGroup.Children.Add(texture);
+                       }
+                   }
+
+                   var stateSpecular = new SpecularMaterial();
+                   stateSpecular.SpecularPower = stateMaterial.SpecularPower;
+                   stateSpecular.Color = stateMaterial.SpecularColor;
+
+                   var stateEmmissive = new EmissiveMaterial();
+                   stateEmmissive.Color = stateMaterial.EmissiveColor;
+
+                   stateMaterialGroup.Children.Add(stateSpecular);
+                   stateMaterialGroup.Children.Add(stateEmmissive);
+
+                   var model = (Model3DGroup)_gameObjects[obj].Content;
+                   ((GeometryModel3D)model.Children[stateMaterial.MeshIndex]).Material = stateMaterialGroup;
+               }
+           }));
+
         }
 
         #region IDispose Implementation

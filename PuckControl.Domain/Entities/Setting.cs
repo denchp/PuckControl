@@ -9,7 +9,7 @@ namespace PuckControl.Domain.Entities
         public string Module { get; set; }
         public string Section { get; set; }
         public string Key { get; set; }
-        public virtual List<SettingOption> Options { get; set; }
+        public virtual ICollection<SettingOption> Options { get; set; }
         public string Note { get; set; }
 
         public Setting()

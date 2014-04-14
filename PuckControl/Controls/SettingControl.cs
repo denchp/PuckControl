@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace PuckControl.Controls
 {
@@ -9,7 +10,7 @@ namespace PuckControl.Controls
     {
         public event EventHandler SettingChanged;
         public Setting Setting { get; set; }
-        
+
         protected void OnSettingChanged()
         {
             if (SettingChanged != null)
@@ -19,6 +20,31 @@ namespace PuckControl.Controls
 
     public class ComboSettingControl : SettingControl
     {
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get
+            {
+                int index = 0;
+                foreach (var option in Setting.Options)
+                {
+                    if (option.IsSelected)
+                        return index;
+
+                    index++;
+                }
+                return 0;
+            }
+            set
+            {
+                foreach (var option in Setting.Options)
+                    option.IsSelected = false;
+
+                Setting.Options.ToList()[value].IsSelected = true;
+                _selectedIndex = value;
+            }
+        }
+
         static ComboSettingControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboSettingControl), new FrameworkPropertyMetadata(typeof(ComboSettingControl)));

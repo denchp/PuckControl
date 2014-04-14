@@ -35,10 +35,6 @@
             InitializeComponent();
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
-            System.Drawing.Icon windowIcon;
-            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/PuckControl;component/Assets/pcIcon.ico")).Stream;
-            windowIcon = new System.Drawing.Icon(iconStream);
-
             _engine = new GameEngine();
             _debugWindow = new DebugWindow(_engine);
             _debugWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -87,7 +83,7 @@
             }
             catch (NotSupportedException ex)
             {
-                System.Windows.MessageBox.Show(ex.Message, "An error occured", MessageBoxButton.OK);
+                System.Windows.MessageBox.Show(ex.Message, "An error occurred", MessageBoxButton.OK);
             }
 
             this.KeyDown += MainWindow_KeyDown;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 
 [assembly: CLSCompliant(true)]
@@ -8,8 +10,6 @@ namespace PuckControl
 {
     internal static class Startup
     {
-        private static Thread SplashThread;
-
         [System.STAThreadAttribute()]
         public static void Main()
         {
@@ -30,11 +30,10 @@ namespace PuckControl
             string folderpath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\PuckControl\";
             if (!Directory.Exists(folderpath))
                 folderpath = @"C:\";
+            var ex = (Exception)e.ExceptionObject;
 
             using (StreamWriter w = File.AppendText(folderpath + "log.txt"))
             {
-                var ex = (Exception)e.ExceptionObject;
-
                 Log(ex.Message, w);
                 Log("Stack trace:", w);
                 Log(ex.StackTrace, w);
@@ -46,17 +45,65 @@ namespace PuckControl
                     while ((innerEx = innerEx.InnerException) != null)
                     {
                         Log(innerEx.Message, w);
-                        if (innerEx is ReflectionTypeLoadException)
+                        ReflectionTypeLoadException reflectionError;
+                        if ((reflectionError = innerEx as ReflectionTypeLoadException) != null)
                         {
-                            var error = innerEx as ReflectionTypeLoadException;
-                            foreach(var exception in error.LoaderExceptions)
+                            foreach (var exception in reflectionError.LoaderExceptions)
                                 Log(exception.Message, w);
                         }
-                            
+
                     }
 
                 }
             }
+
+            //Attempt to create a new issue on GitHub Repo.
+
+            string bugReport = "";
+
+            bugReport = "Message: " + ex.Message + "\r\n";
+            bugReport += "Stack Trace:\r\n" + ex.StackTrace;
+            if (ex.InnerException != null)
+            {
+                bugReport += "Inner Exceptions:";
+
+                Exception innerEx = ex;
+                while ((innerEx = innerEx.InnerException) != null)
+                {
+                    bugReport += innerEx.Message + "\r\n";
+                   ReflectionTypeLoadException reflectionError;
+                   if ((reflectionError = innerEx as ReflectionTypeLoadException) != null)
+                    {
+                        foreach (var exception in reflectionError.LoaderExceptions)
+                            bugReport += exception.Message + "\r\n";
+                    }
+
+                }
+
+            }
+#if !DEBUG
+            try
+            {
+                var encoding = new ASCIIEncoding();
+                var bugRequest = (HttpWebRequest)WebRequest.Create("http://www.headsup.technology/BugReport/Create");
+
+                string issueData = "title=Automated Bug Report";
+                issueData += "&body=" + bugReport;
+                issueData += "&labels=Bug";
+
+                byte[] data = encoding.GetBytes(issueData);
+
+                bugRequest.Method = "POST";
+                bugRequest.ContentType = "application/x-www-form-urlencoded";
+                bugRequest.ContentLength = data.Length;
+
+                using (Stream stream = bugRequest.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+            catch { }
+#endif
         }
 
         public static void Log(string p, StreamWriter w)

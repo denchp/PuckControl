@@ -7,7 +7,8 @@ namespace PuckControl.Domain.Entities
         public string ModelFile { get; set; }
         public IList<ModelMaterial> Materials { get; private set; }
         public bool IsGameWorld { get; set; }
-
+        public ModelMaterial ActiveMaterial { get; set; }
+        public ModelMaterial InactiveMaterial { get; set; }
         public ModelMetadata()
         {
             Materials = new List<ModelMaterial>();

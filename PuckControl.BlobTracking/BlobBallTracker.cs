@@ -48,13 +48,16 @@ namespace PuckControl.Tracking
         {
             DrawBoxes = true;
             DrawVectors = true;
-            _dataService = dataService;
 
-            _settings = new HashSet<Setting>(_dataService.SettingRespository.Find(x => x.Module == "Tracking"));
+            if (dataService != null)
+            {
+                _dataService = dataService;
+                _settings = new HashSet<Setting>(_dataService.SettingRepository.Find(x => x.Module == "Tracking"));
 
-            LoadCameraSettings();
-            LoadFilterSettings();
-            SaveSettings();
+                LoadCameraSettings();
+                LoadFilterSettings();
+                SaveSettings();
+            }
         }
 
         public void StartTracking()
@@ -149,7 +152,7 @@ namespace PuckControl.Tracking
                 _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Maximum Luminance", Options = new List<SettingOption>() { new SettingOption() { Value = ".85", IsSelected = true } } });
 
                 _settings.Add(new Setting() { Module = MODULE_NAME, Section = "Tracking Color", Key = "Minimum Object Size", Options = new List<SettingOption>() { new SettingOption() { Value = "12", IsSelected = true } } });
-                _dataService.SettingRespository.Save(_settings);
+                _dataService.SettingRepository.Save(_settings);
             }
 
 
@@ -237,10 +240,16 @@ namespace PuckControl.Tracking
             if (imageSetting.Options.Any(x => x.IsSelected))
                 capabilities = _capture.VideoCapabilities.FirstOrDefault(x => x.GetHashCode().ToString() == imageSetting.Options.First(o => o.IsSelected).Value);
 
+            foreach (var option in imageSetting.Options)
+            {
+                if (option.Value != capabilities.GetHashCode().ToString())
+                    option.IsSelected = false;
+            }
+
             if (capabilities == null)
             {
                 // if the capabilities are null here, then the selected image options aren't valid for the camera, so we need to clear the selected option.
-                imageSetting.Options.ForEach(x => x.IsSelected = false);
+                imageSetting.Options.ToList().ForEach(x => x.IsSelected = false);
 
                 _dataService.OptionRepository.Delete(imageSetting.Options);
                 imageSetting.Options.Clear();
@@ -263,7 +272,7 @@ namespace PuckControl.Tracking
 
         private void SaveSettings()
         {
-            _dataService.SettingRespository.Save(_settings);
+            _dataService.SettingRepository.Save(_settings);
         }
 
         private void _capture_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -380,7 +389,7 @@ namespace PuckControl.Tracking
 
         public void ReloadSettings()
         {
-            var moduleSettings = _dataService.SettingRespository.All.Where(x => x.Module == MODULE_NAME).ToList(); ;
+            var moduleSettings = _dataService.SettingRepository.All.Where(x => x.Module == MODULE_NAME).ToList(); ;
 
             _settings = new HashSet<Setting>(moduleSettings);
 

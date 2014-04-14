@@ -20,8 +20,7 @@ namespace PuckControl.Windows
         private Dictionary<string, bool> _flags = new Dictionary<string, bool>();
         private bool _liveView = true;
         private GameEngine _engine;
-        private bool _mouseControl = false;
-
+        
         public DebugWindow(GameEngine engine)
         {
             InitializeComponent(); 
@@ -75,11 +74,6 @@ namespace PuckControl.Windows
             TextBox newItem = new TextBox();
             newItem.Text = name + "\t" + position.ToString();
             this.ObjectList.Children.Add(newItem);
-        }
-
-        private void btnToggleMousecontrol_Click(object sender, RoutedEventArgs e)
-        {
-            _mouseControl = !_mouseControl;
         }
 
         private void _engine_ObjectMotion(object sender, ObjectEventArgs e)

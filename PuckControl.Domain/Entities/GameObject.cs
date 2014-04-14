@@ -7,14 +7,17 @@ namespace PuckControl.Domain.Entities
 {
     public class GameObject
     {
-        
+        public event EventHandler ObjectMotion;
+        public event EventHandler StatusChanged;
+
         public ModelMetadata Model { get; set; }
         public Int32 Mass { get; set; }
         public Int32 MotionSmoothingSteps { get; set; }
         public Vector3D Position
         {
-            get {
-                Vector3D averagedPosition = new Vector3D(0,0,0);
+            get
+            {
+                Vector3D averagedPosition = new Vector3D(0, 0, 0);
                 Int32 Steps = 0;
                 if ((Steps = Positions.Count()) == 0)
                     return averagedPosition;
@@ -35,19 +38,52 @@ namespace PuckControl.Domain.Entities
             {
                 while (Positions.Count() >= MotionSmoothingSteps)
                     Positions.RemoveAt(0);
-                
+
                 Positions.Add(value);
+                if (ObjectMotion != null)
+                    ObjectMotion(this, new EventArgs());
             }
         }
         private List<Vector3D> Positions { get; set; }
         public Vector3D Motion { get; set; }
-        public Vector3D Rotation { get; set; }
+        private Vector3D _rotation;
+        public Vector3D Rotation
+        {
+            get
+            { return _rotation; }
+
+            set
+            {
+                _rotation = value;
+                if (ObjectMotion != null)
+                    ObjectMotion(this, new EventArgs());
+            }
+        }
         public String ObjectType { get; set; }
-        public bool Active { get; set; }
+        private bool _active;
+        public bool Active
+        {
+            get
+            {
+                return _active;
+            }
+
+            set
+            {
+                if (value != _active)
+                {
+                    _active = value;
+                    if (StatusChanged != null)
+                        StatusChanged(this, new EventArgs());
+                }
+            }
+        }
         public Rect3D Bounds { get; set; }
         public bool TrackCollisions { get; set; }
         public bool ControlledObject { get; set; }
         public bool ApplyPhysics { get; set; }
+        public bool AnimateMovement { get; set; }
+        public TimeSpan AnimateDuration { get; set; }
 
         public Vector3D Scale { get; set; }
 
@@ -58,6 +94,8 @@ namespace PuckControl.Domain.Entities
             Model = new ModelMetadata();
             MotionSmoothingSteps = 1;
             ApplyPhysics = true;
+            Rotation = new Vector3D(0, 0, 0);
+            ControlledObject = false;
         }
     }
 }

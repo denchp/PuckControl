@@ -63,10 +63,10 @@
                 <ControlTemplate TargetType="{x:Type pc:ComboSettingControl}">
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                         <Label Content="{Binding Path=Setting.Key}" MinWidth="150"/>
-                        <ComboBox ItemsSource="{Binding Path=Setting.Options}" SelectedValuePath="Key" Name="cmbOptions">
-                            <ComboBox.SelectedValue>
-                                <Binding Path="Setting.Options.IsSelected" Mode="TwoWay"/>
-                            </ComboBox.SelectedValue>
+                        <ComboBox ItemsSource="{Binding Path=Setting.Options}" Name="cmbOptions">
+                            <ComboBox.SelectedIndex>
+                                <Binding Path="SelectedIndex" Mode="TwoWay"/>
+                            </ComboBox.SelectedIndex>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Name}"/>

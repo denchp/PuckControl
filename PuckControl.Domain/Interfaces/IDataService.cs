@@ -6,7 +6,7 @@ namespace PuckControl.Domain.Interfaces
     {
         IRepository<Score> ScoreRepository { get; }
         IRepository<User> UserRepository { get; }
-        IRepository<Setting> SettingRespository { get; }
+        IRepository<Setting> SettingRepository { get; }
         IRepository<SettingOption> OptionRepository { get; }
     }
 }
