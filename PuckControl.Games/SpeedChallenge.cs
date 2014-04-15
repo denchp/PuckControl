@@ -121,18 +121,18 @@ namespace PuckControl.Games
             _gameTimer.Start();
         }
 
-        public override void Collision(GameObject obj1, GameObject obj2)
+        public override void Collision(GameObject objectOne, GameObject objectTwo)
         {
-            if (obj2 == null || CurrentStage != GameStage.Playing || !obj2.Active)
+            if (objectTwo == null || CurrentStage != GameStage.Playing || !objectTwo.Active)
                 return;
 
-            obj2.Active = false;
+            objectTwo.Active = false;
 
             _scoreHUD.Value += 1;
             PlayAudio(_bonusSoundUri);
             AddTarget();
 
-            GameObjects.Remove(obj2);
+            GameObjects.Remove(objectTwo);
         }
 
         public override int? Score

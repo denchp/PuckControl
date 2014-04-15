@@ -21,8 +21,26 @@ namespace PuckControl.Tracking
         public event EventHandler NewCameraImage;
         public event EventHandler LostBall;
 
+        /// <summary>
+        /// Gets the camera image.
+        /// </summary>
+        /// <value>
+        /// The camera image.
+        /// </value>
         public Bitmap CameraImage { get { return (Bitmap)_colorImage.Clone(); } }
+        /// <summary>
+        /// Gets the tracking image.
+        /// </summary>
+        /// <value>
+        /// The tracking image.
+        /// </value>
         public Bitmap TrackingImage { get { return (Bitmap)_trackingImage.Clone(); } }
+        /// <summary>
+        /// Gets or sets a value indicating whether to draw tracking boxes.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [draw boxes]; otherwise, <c>false</c>.
+        /// </value>
         public bool DrawBoxes { get; set; }
         public bool DrawVectors { get; set; }
 
@@ -44,6 +62,10 @@ namespace PuckControl.Tracking
 
         const Int32 OUTLIER_LENGTH = 50;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlobBallTracker"/> class.
+        /// </summary>
+        /// <param name="dataService">The data service.</param>
         public BlobBallTracker(IDataService dataService)
         {
             DrawBoxes = true;
@@ -60,6 +82,9 @@ namespace PuckControl.Tracking
             }
         }
 
+        /// <summary>
+        /// Starts the tracking.
+        /// </summary>
         public void StartTracking()
         {
             _capture.Start();
@@ -67,13 +92,21 @@ namespace PuckControl.Tracking
             _capture.NewFrame += _capture_NewFrame;
         }
 
+        /// <summary>
+        /// Stops the tracking.
+        /// </summary>
         public void StopTracking()
         {
             _capture.NewFrame -= _capture_NewFrame;
             _capture.SignalToStop();
         }
 
-        public bool BallTracking(System.Drawing.Image newFrame)
+        /// <summary>
+        /// Tracks the ball.
+        /// </summary>
+        /// <param name="newFrame">The new frame.</param>
+        /// <returns></returns>
+        public bool TrackBall(System.Drawing.Image newFrame)
         {
             if (newFrame == null)
                 return false;
@@ -114,6 +147,10 @@ namespace PuckControl.Tracking
             return true;
         }
 
+        /// <summary>
+        /// Finds the ball.
+        /// </summary>
+        /// <returns></returns>
         private Rectangle FindBall()
         {
             Rectangle ballRectangle = new Rectangle();
@@ -140,6 +177,9 @@ namespace PuckControl.Tracking
             return ballRectangle;
         }
 
+        /// <summary>
+        /// Loads the filter settings.
+        /// </summary>
         private void LoadFilterSettings()
         {
             if (_settings.Count(x => x.Section == "Tracking Color") == 0)
@@ -183,6 +223,10 @@ namespace PuckControl.Tracking
             _blobCounter = new BlobCounter();
         }
 
+        /// <summary>
+        /// Loads the camera settings.
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">No video devices found.</exception>
         private void LoadCameraSettings()
         {
             if (_capture != null)
@@ -270,17 +314,25 @@ namespace PuckControl.Tracking
             _capture.VideoResolution = capabilities;
         }
 
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
         private void SaveSettings()
         {
             _dataService.SettingRepository.Save(_settings);
         }
 
+        /// <summary>
+        /// Handles the NewFrame event of the _capture control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="eventArgs">The <see cref="NewFrameEventArgs"/> instance containing the event data.</param>
         private void _capture_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             if (!lastFrameProcessed)
                 return;
 
-            if (!BallTracking(eventArgs.Frame))
+            if (!TrackBall(eventArgs.Frame))
                 return;
 
             lastFrameProcessed = false;

@@ -20,7 +20,6 @@ namespace PuckControl.Controls
 
     public class ComboSettingControl : SettingControl
     {
-        private int _selectedIndex;
         public int SelectedIndex
         {
             get
@@ -41,7 +40,6 @@ namespace PuckControl.Controls
                     option.IsSelected = false;
 
                 Setting.Options.ToList()[value].IsSelected = true;
-                _selectedIndex = value;
             }
         }
 

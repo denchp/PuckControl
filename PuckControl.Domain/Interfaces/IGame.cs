@@ -26,7 +26,7 @@ namespace PuckControl.Domain.Interfaces
         void StartGame();
         void EndGame();
         void Reset();
-        void Collision(GameObject obj1, GameObject obj2);
+        void Collision(GameObject objectOne, GameObject objectTwo);
         void CleanUp();
     }
 }

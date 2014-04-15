@@ -108,14 +108,17 @@ namespace PuckControl.Games
             }
         }
 
-        public override void Collision(GameObject obj, GameObject obj2)
+        public override void Collision(GameObject objectOne, GameObject objectTwo)
         {
-            if (obj2 == null || CurrentStage != GameStage.Playing || !obj2.Active)
+            if (objectOne == null || objectTwo == null)
                 return;
 
-            obj2.Active = false;
+            if (CurrentStage != GameStage.Playing || !objectTwo.Active)
+                return;
 
-            switch (obj.ObjectType)
+            objectTwo.Active = false;
+
+            switch (objectOne.ObjectType)
             {
                 case "Cone":
                     _livesHUD.Value -= 1;
@@ -133,7 +136,7 @@ namespace PuckControl.Games
                     break;
             }
 
-            GameObjects.Remove(obj2);
+            GameObjects.Remove(objectTwo);
         }
 
         public override void StartGame()
