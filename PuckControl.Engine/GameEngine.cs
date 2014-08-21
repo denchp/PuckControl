@@ -341,32 +341,38 @@ namespace PuckControl.Engine
 
             if (ObjectMotion == null)
                 return;
-
-            foreach (GameObject obj in _objects.Where(x => x.ControlledObject == true).ToList())
+            try
             {
-                Vector3D motionVector = e.PositionVector - obj.Position;
-                if (motionVector.Length < this.ControlDeadZone)
-                    continue;
-
-                switch (_game.ControlType)
+                foreach (GameObject obj in _objects.Where(x => x.ControlledObject == true))
                 {
-                    case ControlType.Relative:
-                        if (motionVector.Length > MaxSpeed)
-                            motionVector = motionVector * (MaxSpeed / motionVector.Length);
+                    Vector3D motionVector = e.PositionVector - obj.Position;
+                    if (motionVector.Length < this.ControlDeadZone)
+                        continue;
 
-                        obj.Position = obj.Position + motionVector;
-                        ObjectMotion(this, new ObjectEventArgs(obj));
-                        break;
+                    switch (_game.ControlType)
+                    {
+                        case ControlType.Relative:
+                            if (motionVector.Length > MaxSpeed)
+                                motionVector = motionVector * (MaxSpeed / motionVector.Length);
 
-                    default:
-                        obj.Position = obj.Position + motionVector;
-                        ObjectMotion(this, new ObjectEventArgs(obj));
-                        break;
+                            obj.Position = obj.Position + motionVector;
+                            ObjectMotion(this, new ObjectEventArgs(obj));
+                            break;
+
+                        default:
+                            obj.Position = obj.Position + motionVector;
+                            ObjectMotion(this, new ObjectEventArgs(obj));
+                            break;
+                    }
                 }
-            }
 
-            if (TrackingUpdateReceived != null)
-                TrackingUpdateReceived(this, new EventArgs());
+                if (TrackingUpdateReceived != null)
+                    TrackingUpdateReceived(this, new EventArgs());
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void _game_RemoveObjectEvent(object sender, ObjectEventArgs e)

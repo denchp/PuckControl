@@ -42,6 +42,9 @@ namespace PuckControl.Data.CE
                     typeof(AbstractEntity).IsAssignableFrom(e.Entity.GetType())
                 select e;
 
+            if (objectStateEntries.Count() == 0)
+                return 0;
+
             var currentTime = DateTime.Now;
 
             foreach (var entry in objectStateEntries)

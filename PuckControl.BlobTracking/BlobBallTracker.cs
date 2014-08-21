@@ -274,7 +274,7 @@ namespace PuckControl.Tracking
                 {
                     imageSetting.Options.Add(new SettingOption() { Name = cap.FrameSize.ToString(), Value = cap.GetHashCode().ToString() });
 
-                    if (cap.FrameSize.Height <= 480 && cap.FrameSize.Width <= 640 && capabilities == null)
+                    if (cap.FrameSize.Height <= 240 && cap.FrameSize.Width <= 320 && capabilities == null)
                     {
                         imageSetting.Options.FirstOrDefault(x => x.Name == cap.FrameSize.ToString()).IsSelected = true;
                     }
@@ -284,11 +284,8 @@ namespace PuckControl.Tracking
             if (imageSetting.Options.Any(x => x.IsSelected))
                 capabilities = _capture.VideoCapabilities.FirstOrDefault(x => x.GetHashCode().ToString() == imageSetting.Options.First(o => o.IsSelected).Value);
 
-            foreach (var option in imageSetting.Options)
-            {
-                if (option.Value != capabilities.GetHashCode().ToString())
-                    option.IsSelected = false;
-            }
+
+
 
             if (capabilities == null)
             {
@@ -302,12 +299,19 @@ namespace PuckControl.Tracking
                 {
                     imageSetting.Options.Add(new SettingOption() { Name = cap.FrameSize.ToString(), Value = cap.GetHashCode().ToString() });
 
-                    if (cap.FrameSize.Height <= 480 && cap.FrameSize.Width <= 640 && capabilities == null)
+                    if (cap.FrameSize.Height <= 240 && cap.FrameSize.Width <= 320 && capabilities == null)
                     {
                         capabilities = cap;
                         if (imageSetting.Options.Any(x => x.IsSelected))
                             imageSetting.Options.First(x => x.Value == cap.FrameSize.ToString()).IsSelected = true;
                     }
+                }
+            }
+            else {
+                foreach (var option in imageSetting.Options)
+                {
+                    if (option.Value != capabilities.GetHashCode().ToString())
+                        option.IsSelected = false;
                 }
             }
 

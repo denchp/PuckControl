@@ -22,7 +22,5 @@ namespace PuckControl.Domain.Entities
             SpecularPower = 1000;
             EmissiveColor = Color.FromRgb(255, 255, 255);
         }
-
-        
     }
 }
